@@ -11,6 +11,8 @@
   --green-main: #7E9401;
   --green-light: #96AF0C;
   --green-light: #D4FA00;
+  --error-darkest: #30000F;
+  --error-dark: #5D001E;
   --error-main: #89012A;
   --error-light: #A10C39;
   --error-accent: #ED0048;
@@ -18,6 +20,13 @@
   --orange-light: #B4590D;
   --orange-accent: #FF7400;
   --white: #F2F4F9;
+
+  --text-xs: 10pt;
+  --text-sm: 12pt;
+  --text-md: 14pt;
+  --text-lg: 16pt;
+  --text-xl: 20pt;
+  --text-xxl: 25pt;
 }
 
  
