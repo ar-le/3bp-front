@@ -21,7 +21,7 @@ export const userValidationMessages = ({max = 0, min = 0, field = 'generic', err
         generic : {
             required: 'This field is mandatory',
             max: `The character limit is ${max}`,
-            min: `The character minimun is ${min}`
+            min: `The character minimum is ${min}`
         }
     }
 
@@ -31,3 +31,11 @@ export const userValidationMessages = ({max = 0, min = 0, field = 'generic', err
 
     return msgs[key][errorKey]
 }
+
+
+export const SUPPORTED_IMAGE_FORMATS = [
+    "jpg",
+    "jpeg",
+    "gif",
+    "png"
+  ];
