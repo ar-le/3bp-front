@@ -24,7 +24,9 @@ function Login() {
     let navigator = useNavigate();
 
     async function onSubmitHandler (data : ILogin) {
-        dispatch(loginAsync(data))
+        const res = await dispatch(loginAsync(data))
+        console.log(res.meta.requestStatus);
+        
         /* AuthApi.login(data)
         .then(response =>{
             dispatch(login(response.data));

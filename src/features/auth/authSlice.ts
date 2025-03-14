@@ -4,31 +4,32 @@ import { ILoggedUser, ILogin, IRegisterUser } from '../../types/UserTypes'
 import { AuthApi, loginIndependiente } from './authApi'
 
 interface AuthState{
-    username : string | null,
+    user : ILoggedUser | null,
     status : 'idle' | 'loading' | 'failed'
 }
 
 const initialState : AuthState = {
-    username : null,
+    user : null,
     status: 'idle'
 }
+
 
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
       login: (state, action: PayloadAction<ILoggedUser>) => {
-        state.username = action.payload.username;
+        state.user = action.payload;
       }, 
       logout: (state) => {
-        state.username = null
+        state.user = null
       }
     },
     extraReducers(builder) {
       builder
       .addCase(loginAsync.fulfilled, (state, action) =>{
         state.status = "idle"
-        //state.user = action.payload 
+        state.user = action.payload;
       })
       .addCase(loginAsync.rejected, state => {
         state.status = "failed"
@@ -39,11 +40,11 @@ export const authSlice = createSlice({
 
 export const { login, logout } = authSlice.actions;
 
-export const selectUsername = (state: RootState) => state.auth.username;
+export const selectUsername = (state: RootState) => state.auth.user?.username;
 /* export const selectRole = (state: RootState) => state.auth.user?.role;
 export const selectToken = (state: RootState) => state.auth.user?.token;
-export const selectTeam = (state: RootState) => state.auth.user?.team_id;
-export const selectUser = (state: RootState) => state.auth.user; */
+export const selectTeam = (state: RootState) => state.auth.user?.team_id; */
+export const selectUser = (state: RootState) => state.auth.user; 
 
 //meter en la store para poder leer state
 export default authSlice.reducer  
@@ -52,8 +53,8 @@ export const loginAsync = createAsyncThunk(
   'auth/loginAsync',
   async (data : ILogin) => {
      const response = await AuthApi.login(data);
-    return response; 
-    return null;
+    return response.data; 
+   
   }
 )
 
