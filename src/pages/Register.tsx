@@ -8,6 +8,13 @@ import { FileInput } from "../components/FileInput";
 import { useRef, useState } from "react";
 import { SUPPORTED_IMAGE_FORMATS } from "../utils/formValidation";
 import { CheckboxInput } from "../components/CheckboxInput";
+import { AuthApi } from "../features/auth/authApi";
+import { httpResponseOk } from "../utils/httpClient";
+import { ILoggedUser, IRegisterUser } from "../types/UserTypes";
+import { useNavigate } from "react-router";
+import { useAppDispatch } from "../app/hooks";
+import { login } from "../features/auth/authSlice";
+import { LocalStorageManager } from "../utils/localStorageManagement";
 
 interface Values {
     email: string, 
@@ -24,11 +31,12 @@ interface Values {
 
 function Register() {
 
-
+    const dispatch = useAppDispatch();
       const fileInputRef = useRef<HTMLInputElement>(null)
       const previewAvatar = useRef<HTMLImageElement>(null)
       const[displayPreview, setDisplayPreview] = useState(false);
       const[avatarPreview, setAvatarPreview] = useState<string | null>(null);
+      let navigator = useNavigate();
     return ( 
         <Container fluid={true} className="full-height">
             <Formik
@@ -46,10 +54,15 @@ function Register() {
                 validationSchema={Yup.object({
                     email: Yup.string()
                         .email(userValidationMessages({field: 'email', errorType:'email'}))
-                        .required(userValidationMessages({field: 'email', errorType:'required'})),
+                        .required(userValidationMessages({field: 'email', errorType:'required'}))
+                        .test('availableEmail', userValidationMessages({field: 'email', errorType:'notAvailable'}),
+                            async (value) => await AuthApi.availableEmail(value))
+                        ,
                     username: Yup.string()
                         .required(userValidationMessages({errorType:'required'}))
                         .min(3, userValidationMessages({ errorType:'min', min:3}))
+                        .test('availableUsername', userValidationMessages({field: 'username', errorType:'notAvailable'}),
+                            async (value) => await AuthApi.availableUsername(value))
                         ,
                     password: Yup.string()
                         .required(userValidationMessages({field: 'password', errorType:'required'}))
@@ -63,7 +76,7 @@ function Register() {
                     avatar: Yup.mixed()
                         .nullable()
                         .notRequired()
-                        .test('FORMAT', 'This file is not a valid image', value => {
+                        .test('validFormat', 'This file is not a valid image', value => {
                             const filename = value as string;
                             return !value || (value && SUPPORTED_IMAGE_FORMATS.some(f => filename.endsWith(f)))
                         }),
@@ -76,13 +89,10 @@ function Register() {
                     accepts_communication: Yup.bool()
                         .required(userValidationMessages({errorType:'required'}))
                         .oneOf([true], userValidationMessages({errorType:'required'}))
-                    
-                        
-                    //https://stackoverflow.com/questions/62515683/yup-w-formik-file-upload-validation
-
+                         
                 })}
-                onSubmit={(values, { setSubmitting }) => {
-                    const data ={
+                onSubmit={async (values, { setSubmitting }) => {
+                    const data : IRegisterUser ={
                         username: values.username,
                         email: values.email,
                         password: values.password,
@@ -92,13 +102,17 @@ function Register() {
                         accepts_cookies: values.accepts_cookies,
                         accepts_communication: values.accepts_communication
                     }
-                    console.log(data);
-                    
-                    //hacer peticion con esto y redirigir si ok
-                    /* setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                    }, 200); */
+                    //console.log(data);
+                     const response = await AuthApi.register(data);
+                        if(httpResponseOk(response)){
+                            dispatch(login(response.data));
+                            LocalStorageManager.put<ILoggedUser>('loggedUser', response.data);
+                            navigator("/dashboard");
+                        }
+                        else{
+                            setSubmitting(false);
+                        }
+                 
                 }}
             >
 

@@ -4,7 +4,15 @@ import * as Yup from 'yup';
 import { userValidationMessages } from "../utils/formValidation";
 import { TextInput } from "../components/TextInput";
 import { SubmitButton } from "../components/SubmitButton";
-import { Link } from "react-router";
+import { Link, Router, useNavigate } from "react-router";
+
+import { ILoggedUser, ILogin } from "../types/UserTypes";
+import { AuthApi } from "../features/auth/authApi";
+import { httpResponseOk } from "../utils/httpClient";
+
+import { LocalStorageManager } from "../utils/localStorageManagement";
+import { useAppDispatch } from "../app/hooks";
+import { login, loginAsync } from "../features/auth/authSlice";
 
 interface Values {
     email : string,
@@ -12,6 +20,31 @@ interface Values {
 }
 
 function Login() {
+    const dispatch = useAppDispatch();
+    let navigator = useNavigate();
+
+    async function onSubmitHandler (data : ILogin) {
+        dispatch(loginAsync(data))
+        /* AuthApi.login(data)
+        .then(response =>{
+            dispatch(login(response.data));
+            LocalStorageManager.put<ILoggedUser>('loggedUser', response.data);
+        })
+        .catch(error => console.log(error)
+        ); */
+
+        /* if(httpResponseOk(response)){
+            dispatch(login(response.data));
+            LocalStorageManager.put<ILoggedUser>('loggedUser', response.data);
+            navigator("/dashboard");
+        }
+        else{
+            //setSubmitting(false);
+            console.log(response.status);
+            
+        } */
+    }
+
     return ( 
         <Container fluid={true} className="d-flex flex-column justify-content-center align-items-center full-height">
             
@@ -24,11 +57,31 @@ function Login() {
                             password: Yup.string()
                             .required(userValidationMessages({field: 'password', errorType:'required'}))
                         })}
-                        onSubmit={(values, { setSubmitting }) => {
-                            setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                            setSubmitting(false);
-                            }, 200);
+                        onSubmit={async (values, { setSubmitting }) => {
+                            const data : ILogin = {
+                                email: values.email,
+                                password: values.password
+                            }
+                            console.log(data);
+                            onSubmitHandler(data);
+                            
+                           // console.log(response);
+                            
+                            //enviar petición login
+                            //const response = await AuthApi.login(data);
+
+                            //almacenar credenciales
+                            /* if(httpResponseOk(response)){
+                                dispatch(login(response.data));
+                                LocalStorageManager.put<ILoggedUser>('loggedUser', response.data);
+                                navigator("/dashboard");
+                            }
+                            else{
+                                setSubmitting(false);
+                                console.log(response.status);
+                                
+                            } */
+
                         }}
                     >
                     

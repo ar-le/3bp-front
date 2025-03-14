@@ -10,7 +10,11 @@ export const userValidationMessages = ({max = 0, min = 0, field = 'generic', err
     const msgs = {
         email :{
             email: 'This is not a valid email address',
-            required: 'You must provide an email address'
+            required: 'You must provide an email address',
+            notAvailable: 'This email is already in use'
+        },
+        username : {
+            notAvailable: 'This username is already in use'
         },
         password : {
             required: 'You must provide a password'
