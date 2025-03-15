@@ -7,13 +7,12 @@ import { SubmitButton } from "../components/SubmitButton";
 import { Link, Router, useNavigate } from "react-router";
 
 import { ILoggedUser, ILogin } from "../types/UserTypes";
-import { AuthApi } from "../features/auth/authApi";
-import { httpResponseOk } from "../utils/httpClient";
 
 import { LocalStorageManager } from "../utils/localStorageManagement";
 import { useAppDispatch } from "../app/hooks";
-import { login, loginAsync } from "../features/auth/authSlice";
+import { loginAsync } from "../features/auth/authSlice";
 import { useState } from "react";
+import { httpClient } from "../utils/httpClient";
 
 interface Values {
   email: string;
@@ -28,13 +27,22 @@ function Login() {
   async function onSubmitHandler(data: ILogin) {
     setInvalidCredentials(false);
     const res = await dispatch(loginAsync(data));
-    //console.log(res);
+    console.log(res);
 
     if (res.meta.requestStatus == "fulfilled") {
+      const user = res.payload as ILoggedUser;
       LocalStorageManager.put<ILoggedUser>(
         "loggedUser",
-        res.payload as ILoggedUser
+        user
       );
+
+      //httpClient.defaults.headers.common.Authorization =  `Bearer ${user.token}`;
+      httpClient.interceptors.request.use(function (config) {
+        //const user = useAppSelector(selectUser);
+        config.headers['Authorization'] =  `Bearer ${user.token}`;
+        
+        return config;
+      });
       navigator("/dashboard");
     } else {
       setInvalidCredentials(true);

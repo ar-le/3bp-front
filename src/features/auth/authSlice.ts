@@ -41,6 +41,14 @@ export const authSlice = createSlice({
       .addCase(registerAsync.rejected, state => {
         state.status = "failed"
       })
+      .addCase(logoutAsync.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.user = null;
+        state.status = "idle";
+      })
+      .addCase(logoutAsync.rejected, state => {
+        state.status = "failed"
+      })
     },
 })
 
@@ -72,6 +80,14 @@ export const registerAsync = createAsyncThunk(
      const response = await AuthApi.register(data);
     return response.data; 
    
+  }
+)
+
+export const logoutAsync = createAsyncThunk(
+  'auth/logoutAsync',
+  async () => {
+      await AuthApi.logout();
+      return null;
   }
 )
 

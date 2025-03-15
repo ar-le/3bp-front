@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useAppSelector } from "../app/hooks";
+import { selectUser } from "../features/auth/authSlice";
 //import { selectToken} from "../features/auth/authSlice";
 const BASE_URL = 'http://127.0.0.1:8000/api/'
 
@@ -17,8 +18,8 @@ export const httpClient = axios.create({
 
 //añadir header authorization cuando hay un token almacenado
 /* httpClient.interceptors.request.use(function (config) {
-  let token = useAppSelector(selectToken);
-  if(token) config.headers.set('Authorization', `Bearer ${token}`);
+  const user = useAppSelector(selectUser);
+  if(user) config.headers['Authorization'] =  `Bearer ${user.token}`;
   
   return config;
 }); */

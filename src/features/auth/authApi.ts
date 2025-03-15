@@ -51,5 +51,11 @@ export class AuthApi {
         const response = await httpClient.post<ILoggedUser>('register', data);
         return response;
     }
+
+    static async logout()
+    {
+        const response = await httpClient.get<void>('logout');
+        return response;
+    }
 }
 
