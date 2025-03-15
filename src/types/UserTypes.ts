@@ -27,3 +27,4 @@ export interface ILoggedUser {
     avatar: string | null
 }
 
+

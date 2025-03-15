@@ -10,6 +10,7 @@ import Register from './pages/Register.tsx'
 //import AuthGuard from './features/auth/routeGuards/AuthGuard.tsx'
 import { Provider } from 'react-redux'
 import { store } from './app/store.ts'
+import Dashboard from './pages/Dashboard.tsx'
 
 createRoot(document.getElementById('root')!).render(
 
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path='/login' element={<Login/>}></Route>
                     <Route path='/register' element={<Register/>}></Route>
                 {/* </Route> */}
+                    <Route path='/dashboard' element={<Dashboard/>}></Route>
             </Routes>
         </BrowserRouter>
     </Provider>

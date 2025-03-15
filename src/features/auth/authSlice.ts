@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
-import type { AppThunk, RootState  } from '../../app/store'
+import type { RootState } from '../../app/store'
 import { ILoggedUser, ILogin, IRegisterUser } from '../../types/UserTypes'
-import { AuthApi, loginIndependiente } from './authApi'
+import { AuthApi } from './authApi'
 
 interface AuthState{
     user : ILoggedUser | null,
@@ -34,6 +34,13 @@ export const authSlice = createSlice({
       .addCase(loginAsync.rejected, state => {
         state.status = "failed"
       })
+      .addCase(registerAsync.fulfilled, (state, action) =>{
+        state.status = "idle"
+        state.user = action.payload;
+      })
+      .addCase(registerAsync.rejected, state => {
+        state.status = "failed"
+      })
     },
 })
 
@@ -45,6 +52,7 @@ export const selectUsername = (state: RootState) => state.auth.user?.username;
 export const selectToken = (state: RootState) => state.auth.user?.token;
 export const selectTeam = (state: RootState) => state.auth.user?.team_id; */
 export const selectUser = (state: RootState) => state.auth.user; 
+export const selectAuthSliceStatus = (state: RootState) => state.auth.status; 
 
 //meter en la store para poder leer state
 export default authSlice.reducer  
@@ -53,6 +61,15 @@ export const loginAsync = createAsyncThunk(
   'auth/loginAsync',
   async (data : ILogin) => {
      const response = await AuthApi.login(data);
+    return response.data; 
+   
+  }
+)
+
+export const registerAsync = createAsyncThunk(
+  'auth/registerAsync',
+  async (data : IRegisterUser) => {
+     const response = await AuthApi.register(data);
     return response.data; 
    
   }

@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { httpClient } from "../../utils/httpClient";
 import { ILoggedUser, ILogin, IRegisterUser } from "../../types/UserTypes";
 
@@ -13,31 +13,27 @@ export class AuthApi {
     static async availableUsername(username : string){
         
         try{
-            const response = await httpClient.get('availableUsername', { 
-                params : {
-                    username: username
-                }
-            })
+            await httpClient.get(`availableUsername/${username}`)
             return true;
         }
         catch(error)
         {
+            const axError = error as AxiosError;
+            //400 es el código que devuelve el servidor si no está disponible el username
+            if(axError.status != 400) return true;
             return false;
         }
     }
 
     static async availableEmail(email : string){
-        
         try{
-            const response = await httpClient.get('availableEmail', { 
-                params : {
-                    email
-                }
-            })
+            await httpClient.get(`availableEmail/${email}`)
             return true;
         }
-        catch(error)
+        catch(error )
         {
+            const axError = error as AxiosError;
+            if(axError.status != 400) return true;
             return false;
         }
     }
@@ -46,7 +42,7 @@ export class AuthApi {
     static async login(data :ILogin)
     {
         const response = await httpClient.post<ILoggedUser>('login', data);
-        //actualizar authslice
+        
         return response;
     }
 
@@ -57,10 +53,3 @@ export class AuthApi {
     }
 }
 
-export async function loginIndependiente(data :ILogin)
-    {
-        //const response = await httpClient.post<ILoggedUser>('login', data);
-        const response = await fetch('/login');
-        //actualizar authslice
-        return response;
-    }
