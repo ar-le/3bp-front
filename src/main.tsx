@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
                 <Route element={<AuthGuard roles={['user', 'mod', 'admin']} redirectPath='/login'/>}>
                    <Route element={<UserLayout />}>
-                     <Route path='/dashboard' element={<Dashboard/>}></Route>
+                     <Route path='/' element={<Dashboard/>}></Route>
                    </Route>
                 </Route>
             </Routes>

@@ -43,7 +43,7 @@ function Login() {
         
         return config;
       });
-      navigator("/dashboard");
+      navigator("/");
     } else {
       setInvalidCredentials(true);
     }

@@ -2,6 +2,7 @@
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
+import { BASE_URL } from './httpClient';
 window.Pusher = Pusher;
 
 
@@ -20,7 +21,7 @@ const options = {
 
     enabledTransports: ['ws', 'wss'], 
      //authEndpoint is your apiUrl + /broadcasting/auth
-    authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+    authEndpoint: 'http://3bp-api.lo/broadcasting/auth',
     //    // As I'm using JWT tokens, I need to manually set up the headers.
     auth: {
       headers: {

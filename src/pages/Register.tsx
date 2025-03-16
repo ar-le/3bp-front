@@ -47,7 +47,7 @@ function Register() {
         "loggedUser",
         res.payload as ILoggedUser
       );
-      navigator("/dashboard");
+      navigator("/");
     } else {
       setServerValidationError(true);
     }

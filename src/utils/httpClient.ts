@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { useAppSelector } from "../app/hooks";
-import { selectUser } from "../features/auth/authSlice";
+
 //import { selectToken} from "../features/auth/authSlice";
-const BASE_URL = 'http://127.0.0.1:8000/api/'
+export const BASE_URL = 'http://3bp-api.lo/api/'
 
 export function httpResponseOk(response: AxiosResponse)
 {
