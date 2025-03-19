@@ -13,6 +13,7 @@ import { useAppDispatch } from "../app/hooks";
 import { loginAsync } from "../features/auth/authSlice";
 import { useState } from "react";
 import { httpClient } from "../utils/httpClient";
+import { createWebsocketConnection } from "../utils/echo";
 
 interface Values {
   email: string;
@@ -36,13 +37,15 @@ function Login() {
         user
       );
 
-      //httpClient.defaults.headers.common.Authorization =  `Bearer ${user.token}`;
+      //crear un interceptor que añade el token a las peticiones
       httpClient.interceptors.request.use(function (config) {
         //const user = useAppSelector(selectUser);
         config.headers['Authorization'] =  `Bearer ${user.token}`;
         
         return config;
       });
+
+      createWebsocketConnection(user.token);
       navigator("/");
     } else {
       setInvalidCredentials(true);

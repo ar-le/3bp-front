@@ -22,7 +22,7 @@ export type IRegisterUser = Omit<INewUser, 'role' | 'points' | 'team_id'>
 export interface ILoggedUser {
     username: string | null,
     role: string | null,
-    token: string | null,
+    token: string,
     team_id: string | null,
     avatar: string | null
 }

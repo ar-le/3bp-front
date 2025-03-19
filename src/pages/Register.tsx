@@ -43,10 +43,10 @@ function Register() {
 
     const res = await dispatch(registerAsync(data));
     if (status == "idle") {
-      LocalStorageManager.put<ILoggedUser>(
+      /* LocalStorageManager.put<ILoggedUser>(
         "loggedUser",
         res.payload as ILoggedUser
-      );
+      ); */
       navigator("/");
     } else {
       setServerValidationError(true);

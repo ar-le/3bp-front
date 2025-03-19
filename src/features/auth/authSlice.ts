@@ -36,7 +36,7 @@ export const authSlice = createSlice({
       })
       .addCase(registerAsync.fulfilled, (state, action) =>{
         state.status = "idle"
-        state.user = action.payload;
+        //state.user = action.payload;
       })
       .addCase(registerAsync.rejected, state => {
         state.status = "failed"

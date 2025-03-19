@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router";
+import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -10,11 +10,42 @@ import { Col, Container, Row } from "react-bootstrap";
 import { LocalStorageManager } from "../../utils/localStorageManagement";
 import { httpClient } from "../../utils/httpClient";
 import genericIcon from "../../assets/icons/personicon.png";
+import "./../../utils/echo";
+import { useEffect, useState } from "react";
+
 
 export default function UserLayout() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
+  const location = useLocation();
+
+  const [newTransmissions, setNewTransmissions] = useState(false);
+
+  const turnOnNewTransmission = ()=>{
+    if(location.pathname.localeCompare('/transmissions') !== 0)
+      setNewTransmissions(true);
+  }
+
+  useEffect(() =>{
+    //suscribirse al canal al inicializar el componente y desuscribirse cuando se destruye
+    window.Echo.private(`transmissions-channel`).listen(
+      ".transmission",
+      (event: unknown) => {
+        console.log(event);
+        turnOnNewTransmission();
+      }
+    );
+
+    return () => {
+      window.Echo.private(`transmissions-channel`).stopListening(".transmission");
+    }
+
+  }, [])
+
+ 
+
+
 
   async function handleLogout() {
     await dispatch(logoutAsync());
@@ -25,6 +56,9 @@ export default function UserLayout() {
       config.headers["Authorization"] = null;
       return config;
     });
+    //eliminar liustener y cerrar la conexión para que no se acumulen si se vuelve a entrar sin cerrar la ventana
+    window.Echo.private(`transmissions-channel`).stopListening(".transmission")
+    window.Echo.leave(`transmissions-channel`);
     navigator("/login");
   }
 
@@ -49,15 +83,17 @@ export default function UserLayout() {
                       className="ubuntu-mono-bold text-md"
                       title={user?.username}
                     >
-                        <NavDropdown.Item as={"div"}>
-                        
+                      <NavDropdown.Item as={"div"}>
                         <Link to="/profile">
-                        <i className="bi bi-person-circle me-3"></i>
-                        Profile</Link>
+                          <i className="bi bi-person-circle me-3"></i>
+                          Profile
+                        </Link>
                       </NavDropdown.Item>
-                      
+
                       <NavDropdown.Item as={"div"} onClick={handleLogout}>
-                        <Nav.Link className="p-0"><i className="bi bi-box-arrow-left me-3"></i>Logout</Nav.Link>
+                        <Nav.Link className="p-0">
+                          <i className="bi bi-box-arrow-left me-3"></i>Logout
+                        </Nav.Link>
                       </NavDropdown.Item>
                     </NavDropdown>
 
@@ -68,13 +104,13 @@ export default function UserLayout() {
                     </Nav.Item> */}
                   </div>
                 </div>
-                {/*
+                
                 <Nav.Item>
-                  <Link to="/transmissions">
-                    <i className="bi bi-broadcast text-xl"></i>
+                  <Link onClick={() =>setNewTransmissions(false)} to="/transmissions">
+                    <i className={`bi bi-broadcast text-xl ${newTransmissions ? 'newEventIcon' : ''}` }></i>
                   </Link>
                 </Nav.Item>
-                */}
+               
               </Nav>
             </Col>
           </Row>

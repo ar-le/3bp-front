@@ -12,3 +12,18 @@ header{
 .dropdown-menu{
     background-color:var(--main-background);
 }
+
+.newEventIcon{
+    -webkit-animation: fadeinout 4s linear infinite;
+    animation: fadeinout 4s linear infinite;
+    opacity: 0;
+}
+
+
+@-webkit-keyframes fadeinout {
+  50% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  50% { opacity: 1; }
+}
