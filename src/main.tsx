@@ -12,6 +12,7 @@ import { store } from './app/store.ts'
 import Dashboard from './pages/Dashboard.tsx'
 import UserLayout from './components/layout/UserLayout.tsx'
 import Transmissions from './pages/Transmissions.tsx';
+import {TransmissionDetail} from './pages/TransmissionDetail.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -25,7 +26,9 @@ createRoot(document.getElementById('root')!).render(
                 <Route element={<AuthGuard roles={['user', 'mod', 'admin']} redirectPath='/login'/>}>
                    <Route element={<UserLayout />}>
                      <Route path='/' element={<Dashboard/>}></Route>
-                     <Route path='transmissions' element={<Transmissions />} />
+                     <Route path='transmissions/:id' element={<TransmissionDetail/>}/>
+                     <Route path='transmissions' element={<Transmissions />} > 
+                     </Route>   
                    </Route>
                 </Route>
             </Routes>

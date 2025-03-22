@@ -12,6 +12,9 @@ import { httpClient } from "../../utils/httpClient";
 import genericIcon from "../../assets/icons/personicon.png";
 import "./../../utils/echo";
 import { useEffect, useState } from "react";
+import { ITransmission } from "../../types/GeneralTypes";
+import { newTransmission } from "../../features/transmissions/transmissionsStore";
+import { createWebsocketConnection } from "./../../utils/echo";
 
 
 export default function UserLayout() {
@@ -19,6 +22,7 @@ export default function UserLayout() {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const location = useLocation();
+  
 
   const [newTransmissions, setNewTransmissions] = useState(false);
 
@@ -28,11 +32,13 @@ export default function UserLayout() {
   }
 
   useEffect(() =>{
+    
     //suscribirse al canal al inicializar el componente y desuscribirse cuando se destruye
     window.Echo.private(`transmissions-channel`).listen(
       ".transmission",
-      (event: unknown) => {
+      (event: ITransmission) => {
         console.log(event);
+        dispatch(newTransmission(event));
         turnOnNewTransmission();
       }
     );
@@ -40,11 +46,11 @@ export default function UserLayout() {
     return () => {
       window.Echo.private(`transmissions-channel`).stopListening(".transmission");
     }
-
+    //Esto no es un error, necesito un array vacío para que sólo se ejecute una vez el effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
  
-
 
 
   async function handleLogout() {
@@ -57,8 +63,8 @@ export default function UserLayout() {
       return config;
     });
     //eliminar liustener y cerrar la conexión para que no se acumulen si se vuelve a entrar sin cerrar la ventana
-    window.Echo.private(`transmissions-channel`).stopListening(".transmission")
-    window.Echo.leave(`transmissions-channel`);
+    /* window.Echo.private(`transmissions-channel`).stopListening(".transmission")
+    window.Echo.leave(`transmissions-channel`); */
     navigator("/login");
   }
 

@@ -28,7 +28,7 @@ function Login() {
   async function onSubmitHandler(data: ILogin) {
     setInvalidCredentials(false);
     const res = await dispatch(loginAsync(data));
-    console.log(res);
+    //console.log(res);
 
     if (res.meta.requestStatus == "fulfilled") {
       const user = res.payload as ILoggedUser;

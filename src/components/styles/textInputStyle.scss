@@ -48,3 +48,7 @@ input[type="text"]{
     font-size: var(--text-xs);
 }
 
+input::placeholder{
+    color: var(--bg-accent-light);
+}
+

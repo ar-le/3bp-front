@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import  authReducer from '../features/auth/authSlice'
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
+import transmissionsReducer from '../features/transmissions/transmissionsStore'
 
 
 export const store =  configureStore({
   reducer: {
-    auth: authReducer
+    auth: authReducer,
+    transmissions: transmissionsReducer
   }
 })
 
@@ -23,3 +25,5 @@ export type AppThunk<ThunkReturnType = void> = ThunkAction<
   unknown,
   Action
 >
+
+
