@@ -103,11 +103,11 @@ export default function UserLayout() {
                       </NavDropdown.Item>
                     </NavDropdown>
 
-                    {/* <Nav.Item>
-                      <Link to="/dashboard">
+                    <Nav.Item>
+                      <Link to="/chatrooms">
                         <i className="bi bi-chat-left-fill text-lg"></i>
                       </Link>
-                    </Nav.Item> */}
+                    </Nav.Item>
                   </div>
                 </div>
                 

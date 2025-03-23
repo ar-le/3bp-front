@@ -13,6 +13,8 @@ import Dashboard from './pages/Dashboard.tsx'
 import UserLayout from './components/layout/UserLayout.tsx'
 import Transmissions from './pages/Transmissions.tsx';
 import {TransmissionDetail} from './pages/TransmissionDetail.tsx';
+import Chatrooms from './pages/Chatrooms.tsx';
+import Chat from './pages/Chat.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -27,8 +29,9 @@ createRoot(document.getElementById('root')!).render(
                    <Route element={<UserLayout />}>
                      <Route path='/' element={<Dashboard/>}></Route>
                      <Route path='transmissions/:id' element={<TransmissionDetail/>}/>
-                     <Route path='transmissions' element={<Transmissions />} > 
-                     </Route>   
+                     <Route path='transmissions' element={<Transmissions />} ></Route>  
+                     <Route path='chatrooms' element={<Chatrooms/>}></Route> 
+                     <Route path='chatrooms/:id' element={<Chat/>}/>
                    </Route>
                 </Route>
             </Routes>

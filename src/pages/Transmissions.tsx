@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ITransmission } from "../types/GeneralTypes";
 import { TransmissionsApi } from "../features/transmissions/transmissionsApi";
 import TransmissionPreview from "../features/transmissions/TransmissionPreview";

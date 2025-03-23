@@ -6,6 +6,7 @@ import { LocalStorageManager } from "../../../utils/localStorageManagement";
 import { ILoggedUser } from "../../../types/UserTypes";
 import { useEffect } from "react";
 import { createWebsocketConnection } from "../../../utils/echo";
+import { httpClient } from "../../../utils/httpClient";
 
 function AuthGuard({
   redirectPath = "/",
@@ -19,13 +20,23 @@ function AuthGuard({
 
   //cuando se lee un user nuevo loguearlo
   useEffect(() => {
-    if (user != null) dispatch(login(user));
+    if (user != null) {
+      dispatch(login(user));
+
+    }
+
     if (user) createWebsocketConnection(user.token);
-  }, [user, dispatch]);
+  }, [user]);
 
   //si no hay user buscar en localstorage
   if (!useAppSelector(selectUser)) {
     user = LocalStorageManager.get<ILoggedUser>("loggedUser");
+
+    httpClient.interceptors.request.use(function (config) {
+      if (user) config.headers["Authorization"] = `Bearer ${user.token}`;
+
+      return config;
+    });
     //si hay información guardarla en el estado
     //if(user) dispatch(login(user));
   }
