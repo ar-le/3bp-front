@@ -3,4 +3,5 @@ export interface InputProps {
     name: string,
     id: string,
     theme?: "light" | "dark"
+    ref? : React.Ref<HTMLInputElement| null>
 }

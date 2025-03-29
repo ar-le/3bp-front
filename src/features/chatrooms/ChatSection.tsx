@@ -1,13 +1,24 @@
-import { Button, Col, Offcanvas, Row } from "react-bootstrap";
+import { Button, Col, Modal, Offcanvas, Row } from "react-bootstrap";
 import { IChatroom, PaginatedResponse } from "../../types/GeneralTypes";
 import ChatLink from "./ChatLink";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { httpClient } from "../../utils/httpClient";
 import ChatFilter from "./ChatFilter";
+import { ChatroomsApi } from "./chatroomsApi";
+import "./styles/chatsection.scss";
+import CreateChatForm from "./CreateChatForm";
+
 
 interface ChatSectionProps {
   type: "team" | "general";
-  paginatedChatrooms?: PaginatedResponse<IChatroom> | null;
+  // paginatedChatrooms?: PaginatedResponse<IChatroom> | null;
+}
+
+interface ChatroomFilters {
+    textFilter: string;
+    to: string;
+    from: string;
+    page: number;
 }
 
 const displayInfo = {
@@ -23,17 +34,59 @@ const displayInfo = {
 
 function ChatSection(props: ChatSectionProps) {
   const [showFilters, setShowFilters] = useState(false);
+  const [paginatedChatrooms, setPaginatedChatrooms] =
+    useState<PaginatedResponse<IChatroom> | null>(null);
 
   const handleCloseFilters = () => setShowFilters(false);
   const handleShowFilters = () => setShowFilters(true);
+  const textFilterInput = useRef<HTMLInputElement | null>(null);
+  const afterDateInput = useRef<HTMLInputElement | null>(null);
+
+  const [showModal, setShowModal] = useState(false);
+
 
   const [page, setPage] = useState(1);
 
-  // console.log(props.paginatedChatrooms?.total);
+  useEffect(() => {
+    //pedir información al cargar componente
+    switch (props.type) {
+      case "team":
+        ChatroomsApi.getTeamChatrooms().then(response =>
+          setPaginatedChatrooms(response.data)
+        );
+        break;
+      case "general":
+        ChatroomsApi.getChatrooms().then(response =>
+          setPaginatedChatrooms(response.data)
+        );
+        break;
+    }
+  }, []);
+
+  const toggleCreateChatModal = () => setShowModal(show => !show);
+
+  function filterResults(textFilter: string, to: string, after: string) {
+
+    ChatroomsApi.getChatrooms({
+      textFilter: textFilter,
+      to: to ,
+      after: after,
+      page: page.toString(),
+    }).then(response => setPaginatedChatrooms(response.data))
+    .catch(error => console.log(error));
+  }
+
+  function createChatroom()
+  {
+
+  }
 
   //peticion al servidor cuando se pase de página
   useEffect(() => {
-    //const newPage = httpClient
+    //sólo se ejecuta si hay que mostrar los chats generales, no los de equipo que no se paginan
+    if(props.type != 'general') return; 
+    filterResults(textFilterInput.current?.value ?? '', '', afterDateInput.current?.value ?? '' )
+    
   }, [page]);
 
   return (
@@ -47,14 +100,24 @@ function ChatSection(props: ChatSectionProps) {
         {props.type == "general" && (
           <>
             <Col xs={2}>
-              <Button
-                variant="primary"
-                size="sm"
-                className="d-lg-none"
-                onClick={handleShowFilters}
-              >
-                <i className="bi bi-funnel-fill"></i>
-              </Button>
+              <div className="d-flex">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="d-lg-none mx-1"
+                  onClick={handleShowFilters}
+                >
+                  <i className="bi bi-funnel-fill"></i>
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="d-lg-none mx-1"
+                  onClick={toggleCreateChatModal}
+                >
+                  <i className="bi bi-plus"></i>
+                </Button>
+              </div>
             </Col>
             <Offcanvas
               show={showFilters}
@@ -65,7 +128,7 @@ function ChatSection(props: ChatSectionProps) {
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title>Filters</Offcanvas.Title>
               </Offcanvas.Header>
-              <Offcanvas.Body>
+              <Offcanvas.Body className="filters-expand-container">
                 <div className="mb-0 d-flex">
                   {/* Filtros por texto y fecha */}
                   {/* <div>
@@ -87,7 +150,15 @@ function ChatSection(props: ChatSectionProps) {
                     <label htmlFor="date-to">To</label>
                     <input type="date" id="date-to" className="form-control" />
                   </div> */}
-                  <ChatFilter></ChatFilter>
+                  <ChatFilter onSubmitFn={filterResults} textFilterInput={textFilterInput} afterDateFilterInput={afterDateInput}></ChatFilter>
+                  <Button
+                  variant="primary"
+                  size="sm"
+                  className=" mx-1"
+                  onClick={toggleCreateChatModal}
+                >
+                  <i className="bi bi-plus"></i>
+                </Button>
                 </div>
               </Offcanvas.Body>
             </Offcanvas>
@@ -97,13 +168,13 @@ function ChatSection(props: ChatSectionProps) {
       {/* Resultados */}
       <Row>
         <Col>
-          {props.paginatedChatrooms?.data.map(chatroom => (
+          {paginatedChatrooms?.data.map(chatroom => (
             <ChatLink key={chatroom.id} chatroom={chatroom} />
           ))}
         </Col>
       </Row>
       {/* Paginación si es necesaria */}
-      {props.paginatedChatrooms?.meta?.total != null && (
+      {paginatedChatrooms?.meta?.total != null && props.type != 'team' && (
         <Row>
           <Col>
             <Button
@@ -120,13 +191,25 @@ function ChatSection(props: ChatSectionProps) {
               size="sm"
               className="ubuntu-mono-bold ms-2"
               onClick={() => setPage(page + 1)}
-              disabled={!props.paginatedChatrooms?.links.next}
+              disabled={page == paginatedChatrooms.meta.last_page}
             >
               <i className="bi bi-chevron-right"></i>
             </Button>
           </Col>
         </Row>
       )}
+
+
+
+      <Modal show={showModal} onHide={toggleCreateChatModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Create a chatroom</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <CreateChatForm />
+              </Modal.Body>
+             
+        </Modal>
     </div>
   );
 }

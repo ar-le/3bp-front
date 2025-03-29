@@ -6,7 +6,7 @@ import "./styles/textInputStyle.scss"
 import classNames from "classnames";
 
 interface DateInputProps extends InputProps{
-
+  
 }
 
 export const DateInput = ({ label, ...props } : DateInputProps) => {
@@ -23,6 +23,7 @@ export const DateInput = ({ label, ...props } : DateInputProps) => {
         <InputGroup>
                 <InputGroup.Text id={props.id}>{label}</InputGroup.Text>
                 <Form.Control
+                ref = {props.ref}
                 aria-label={props.id}
                 aria-describedby={props.id}
                 className={classes}

@@ -5,12 +5,12 @@ import { ChatroomsApi } from "../features/chatrooms/chatroomsApi";
 import ChatSection from "../features/chatrooms/ChatSection";
 
 function Chatrooms() {
-  const [chatrooms, setChatrooms] =
+ // const [chatrooms, setChatrooms] =
     useState<PaginatedResponse<IChatroom> | null>(null);
-  const [teamChatrooms, setTeamChatrooms] =
+ // const [teamChatrooms, setTeamChatrooms] =
     useState<PaginatedResponse<IChatroom> | null>(null);
 
-  useEffect(() => {
+/*   useEffect(() => {
     ChatroomsApi.getChatrooms().then(response => {
       setChatrooms(response.data);
     });
@@ -18,7 +18,7 @@ function Chatrooms() {
     ChatroomsApi.getTeamChatrooms().then(response => {
       setTeamChatrooms(response.data);
     });
-  }, []);
+  }, []); */
 
   return (
     <Container className="dark-bg d-flex flex-column justify-content-center align-content-center mt-4">
@@ -27,8 +27,8 @@ function Chatrooms() {
           <h5>Chatrooms</h5>
           <Row className="gy-3 justify-content-between">
             {/* Team chatroom */}
-            <ChatSection type="team" paginatedChatrooms={teamChatrooms} />
-            <ChatSection type="general" paginatedChatrooms={chatrooms} />
+            <ChatSection type="team"  />
+            <ChatSection type="general"  />
           </Row>
         </Col>
       </Row>

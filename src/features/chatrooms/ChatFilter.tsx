@@ -3,7 +3,7 @@ import { Formik, FormikProps, Form } from "formik";
 import * as Yup from "yup";
 import { TextInput } from "../../components/TextInput";
 import { DateInput } from "../../components/DateInput";
-import { SubmitButton } from "../../components/SubmitButton";
+import "./styles/chatfilter.scss"
 
 interface Values {
   textFilter: string;
@@ -13,9 +13,16 @@ interface Values {
 
 interface ChatFilterProps {
   onSubmitFn: (textFilter: string, to: string, from: string) => void;
+  textFilterInput : React.Ref<HTMLInputElement | null>,
+  afterDateFilterInput: React.Ref<HTMLInputElement | null>
 }
 
-function ChatFilter() {
+function ChatFilter({ onSubmitFn, textFilterInput, afterDateFilterInput }: ChatFilterProps) {
+
+    /* function handleSubmit() {
+        console.log(values.textFilter, values.to, values.from);
+        //onSubmitFn(values.textFilter, values.to, values.from);
+    } */
   return (
     <Formik
       initialValues={{
@@ -24,20 +31,21 @@ function ChatFilter() {
         to: "",
       }}
       validationSchema={Yup.object({
-        textFilter: Yup.string().max(20, "Max 20"),
-        from: Yup.date().max(Yup.ref("to"), "From must be before To"),
-        to: Yup.date().min(Yup.ref("from"), "To must be after From"),
+        textFilter: Yup.string().nullable().max(20, "Max 20"),
+        from: Yup.date().notRequired().nullable()
+        //.max(Yup.ref("to"), "From must be before To"),
+       // to: Yup.date().notRequired().nullable().min(Yup.ref("from"), "To must be after From"),
       })}
       onSubmit={values => {
-        // onSubmitFn(values.textFilter, values.to, values.from);
+        onSubmitFn(values.textFilter, values.to, values.from);
       }}
     >
       {(props: FormikProps<Values>) => (
-        <Form className="d-flex">
-          <TextInput label="Search" name="textFilter" id="textFilter" />
-          <DateInput label="From" name="from" id="from" />
-          <DateInput label="To" name="to" id="to" />
-          <SubmitButton label="Access" />
+        <Form className="d-flex flex-column flex-lg-row div-bg-medium px-3 py-2 rounded">
+          <TextInput label="Search" name="textFilter" id="textFilter" ref={textFilterInput} />
+          <DateInput label="From" name="from" id="from" ref={afterDateFilterInput} />
+          
+          <input type="submit" value="Filter" className="btn btn-sm btn-primary submit-button"  />
           {/* <div>
           <input
             type="text"

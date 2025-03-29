@@ -7,6 +7,7 @@ import classNames from "classnames";
 
 interface TextInputProps extends InputProps{
     password?: boolean
+    //ref? : React.Ref<HTMLInputElement | null>
 }
 
 export const TextInput = ({ label, password = false, ...props } : TextInputProps) => {
@@ -23,6 +24,7 @@ export const TextInput = ({ label, password = false, ...props } : TextInputProps
         <InputGroup>
                 <InputGroup.Text id={props.id}>{label}</InputGroup.Text>
                 <Form.Control
+                ref={props.ref}
                 aria-label={props.id}
                 aria-describedby={props.id}
                 className={classes}

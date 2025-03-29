@@ -29,6 +29,11 @@ export interface IChatroom {
   team_id: string;
 }
 
+export interface IPostChatroom {
+  name: string;
+  description: string;
+}
+
 export interface PaginatedResponse<T> {
   data: T[];
   links: {
