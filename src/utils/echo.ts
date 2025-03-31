@@ -18,7 +18,7 @@ const options = {
 
   enabledTransports: ["ws", "wss"],
   //authEndpoint is your apiUrl + /broadcasting/auth
-  authEndpoint: "http://3bp-api.lo/broadcasting/auth",
+  authEndpoint: "http://3bpapi.lo/broadcasting/auth",
   // authEndpoint : 'http://127.0.0.1/broadcasting/auth',
   //    // As I'm using JWT tokens, I need to manually set up the headers.
   auth: {
@@ -29,7 +29,7 @@ const options = {
   },
 };
 
-window.Echo = new Echo({ ...options, broadcaster: "reverb" });
+//window.Echo = new Echo({ ...options, broadcaster: "reverb" });
 
 export function createWebsocketConnection(token: string) {
   window.Pusher = Pusher;
@@ -39,7 +39,7 @@ export function createWebsocketConnection(token: string) {
     key: "5qnqqalyfvmxii89n7p1",
 
     //wsHost: 'localhost',
-    wsHost: "3bp-api.lo",
+    wsHost: "3bpapi.lo",
     wsPort: 8080,
 
     wssPort: 8080,
@@ -48,7 +48,7 @@ export function createWebsocketConnection(token: string) {
 
     enabledTransports: ["ws", "wss"],
     //authEndpoint is your apiUrl + /broadcasting/auth
-    authEndpoint: "http://3bp-api.lo/broadcasting/auth",
+    authEndpoint: "http://3bpapi.lo/broadcasting/auth",
     // authEndpoint : 'http://127.0.0.1/broadcasting/auth',
     //    // As I'm using JWT tokens, I need to manually set up the headers.
     auth: {

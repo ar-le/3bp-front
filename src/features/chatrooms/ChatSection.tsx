@@ -200,7 +200,6 @@ function ChatSection(props: ChatSectionProps) {
       )}
 
 
-
       <Modal show={showModal} onHide={toggleCreateChatModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Create a chatroom</Modal.Title>

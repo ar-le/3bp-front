@@ -1,10 +1,14 @@
-import { IChatroom, IPostChatroom, JsonResponseList, PaginatedResponse, JsonResponseSingle } from "../../types/GeneralTypes";
+import { IChatroom, IPostChatroom, PaginatedResponse, JsonResponseSingle, ChatMessage } from "../../types/GeneralTypes";
 import { httpClient } from "../../utils/httpClient";
 
 
 export class ChatroomsApi{
     static async getChatrooms(filters:Record<string, string> | null = null){
-        return httpClient.get<PaginatedResponse<IChatroom>>("chatrooms", {params: filters});;
+        return httpClient.get<PaginatedResponse<IChatroom>>("chatrooms", {params: filters});
+    }
+
+    static async getChatroom(chatroom: string){
+        return httpClient.get<JsonResponseSingle<IChatroom>>(`chatroomInfo`, {params: {chatroom}});
     }
 
     static async getTeamChatrooms()
@@ -20,5 +24,13 @@ export class ChatroomsApi{
     static async createChatroom (chatroom : IPostChatroom)
     {
         return httpClient.post<JsonResponseSingle<IChatroom>>('chatrooms/create', chatroom);
+    }
+
+    static async getMessages(chatroom: string, cursor: string)
+    {
+        return httpClient.get<PaginatedResponse<ChatMessage>>(`chatmessages`, {params: {
+            cursor,
+            chatroom 
+        }});
     }
 }

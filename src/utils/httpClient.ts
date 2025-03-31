@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 //import { selectToken} from "../features/auth/authSlice";
-export const BASE_URL = 'http://3bp-api.lo/api/'
+export const BASE_URL = 'http://3bpapi.lo/api/'
 
 export function httpResponseOk(response: AxiosResponse)
 {

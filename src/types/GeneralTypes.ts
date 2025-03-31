@@ -50,5 +50,24 @@ export interface PaginatedResponse<T> {
     per_page: number;
     to: number;
     total: number;
+    next_cursor: string | null;
+    prev_cursor: string | null;
   };
+}
+
+export interface ChatMessage{
+  message: Message,
+  user: ChatUserInfo,
+}
+
+export interface Message {
+  id: string,
+  content: string,
+  hidden: boolean,
+}
+
+export interface ChatUserInfo {
+  id: string,
+  username: string,
+  avatar: string
 }
