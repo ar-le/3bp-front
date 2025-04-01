@@ -9,7 +9,7 @@ const options = {
   key: "5qnqqalyfvmxii89n7p1",
 
   //wsHost: 'localhost',
-  wsHost: "3bp-api.lo",
+  wsHost: "3bpapi.lo",
   wsPort: 8080,
 
   wssPort: 8080,
@@ -29,7 +29,7 @@ const options = {
   },
 };
 
-//window.Echo = new Echo({ ...options, broadcaster: "reverb" });
+window.Echo = new Echo({ ...options, broadcaster: "reverb" });
 
 export function createWebsocketConnection(token: string) {
   window.Pusher = Pusher;
