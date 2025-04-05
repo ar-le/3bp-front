@@ -1,0 +1,33 @@
+.msg{
+    width: auto;
+    align-self: flex-start;
+}
+
+.current-user-msg{
+    text-align: right;
+    align-self: flex-end;
+}
+
+.btn.message-options-button{
+    border: none;
+
+    &:hover{
+        background-color: var(--main-background);
+        color: var(--white);
+    }
+
+    &:active{
+        background-color: var(--main-background);
+        color: var(--white);
+    }
+
+    &:focus{
+        background-color: var(--main-background);
+        color: var(--white);
+    }
+}
+
+.popover-arrow{
+    color: red !important;
+}
+

@@ -14,25 +14,22 @@ import "./../../utils/echo";
 import { useEffect, useState } from "react";
 import { ITransmission } from "../../types/GeneralTypes";
 import { newTransmission } from "../../features/transmissions/transmissionsStore";
-import { createWebsocketConnection } from "./../../utils/echo";
-
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 export default function UserLayout() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const location = useLocation();
-  
 
   const [newTransmissions, setNewTransmissions] = useState(false);
 
-  const turnOnNewTransmission = ()=>{
-    if(location.pathname.localeCompare('/transmissions') !== 0)
+  const turnOnNewTransmission = () => {
+    if (location.pathname.localeCompare("/transmissions") !== 0)
       setNewTransmissions(true);
-  }
+  };
 
-  useEffect(() =>{
-    
+  useEffect(() => {
     //suscribirse al canal al inicializar el componente y desuscribirse cuando se destruye
     window.Echo.private(`transmissions-channel`).listen(
       ".transmission",
@@ -44,14 +41,13 @@ export default function UserLayout() {
     );
 
     return () => {
-      window.Echo.private(`transmissions-channel`).stopListening(".transmission");
-    }
+      window.Echo.private(`transmissions-channel`).stopListening(
+        ".transmission"
+      );
+    };
     //Esto no es un error, necesito un array vacío para que sólo se ejecute una vez el effect
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
- 
-
+  }, []);
 
   async function handleLogout() {
     await dispatch(logoutAsync());
@@ -90,7 +86,7 @@ export default function UserLayout() {
                       title={user?.username}
                     >
                       <NavDropdown.Item as={"div"}>
-                        <Link to="/profile">
+                        <Link to={`user/${user?.id}`}>
                           <i className="bi bi-person-circle me-3"></i>
                           Profile
                         </Link>
@@ -110,19 +106,38 @@ export default function UserLayout() {
                     </Nav.Item>
                   </div>
                 </div>
-                
+
                 <Nav.Item>
-                  <Link onClick={() =>setNewTransmissions(false)} to="/transmissions">
-                    <i className={`bi bi-broadcast text-xl ${newTransmissions ? 'newEventIcon' : ''}` }></i>
+                  <Link
+                    onClick={() => setNewTransmissions(false)}
+                    to="/transmissions"
+                  >
+                    <i
+                      className={`bi bi-broadcast text-xl ${
+                        newTransmissions ? "newEventIcon" : ""
+                      }`}
+                    ></i>
                   </Link>
                 </Nav.Item>
-               
               </Nav>
             </Col>
           </Row>
         </Container>
       </header>
       <Outlet></Outlet>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </>
   );
 }

@@ -15,23 +15,25 @@ import Transmissions from './pages/Transmissions.tsx';
 import {TransmissionDetail} from './pages/TransmissionDetail.tsx';
 import Chatrooms from './pages/Chatrooms.tsx';
 import Chat from './pages/Chat.tsx';
+import UserProfile from './pages/UserProfile.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
     <Provider store={store}>
         <BrowserRouter>
         <Routes>
-                <Route element={<AuthGuard roles={[]} redirectPath='/dashboard'/>}>
+                <Route element={<AuthGuard roles={[]} redirectPath='/chatrooms'/>}>
                     <Route path='/login' element={<Login/>}></Route>
                     <Route path='/register' element={<Register/>}></Route>
                 </Route>
                 <Route element={<AuthGuard roles={['user', 'mod', 'admin']} redirectPath='/login'/>}>
                    <Route element={<UserLayout />}>
-                     <Route path='/' element={<Dashboard/>}></Route>
+                     {/* <Route path='/' element={<Dashboard/>}></Route> */}
                      <Route path='transmissions/:id' element={<TransmissionDetail/>}/>
                      <Route path='transmissions' element={<Transmissions />} ></Route>  
-                     <Route path='chatrooms' element={<Chatrooms/>}></Route> 
+                     <Route path='/' element={<Chatrooms/>}></Route> 
                      <Route path='chatrooms/:id' element={<Chat/>}/>
+                     <Route path='user/:id' element={<UserProfile/>}></Route>
                    </Route>
                 </Route>
             </Routes>

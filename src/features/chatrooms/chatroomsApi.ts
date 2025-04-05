@@ -1,4 +1,4 @@
-import { IChatroom, IPostChatroom, PaginatedResponse, JsonResponseSingle, ChatMessage } from "../../types/GeneralTypes";
+import { IChatroom, IPostChatroom, PaginatedResponse, JsonResponseSingle, ChatMessage, SendChatmessage } from "../../types/GeneralTypes";
 import { httpClient } from "../../utils/httpClient";
 
 
@@ -32,5 +32,15 @@ export class ChatroomsApi{
             cursor,
             chatroom 
         }});
+    }
+
+    static async sendMessage(info : SendChatmessage)
+    {
+        return httpClient.post<ChatMessage>('chatmessages/send', info);
+    }
+
+    static async reportMessage(message: string)
+    {
+        return httpClient.get<ChatMessage>('chatmessages/report', {params : {id: message}});
     }
 }

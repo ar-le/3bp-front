@@ -6,8 +6,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import Chatmessage from "../features/chatrooms/Chatmessage";
 import "./styles/chat.scss";
 import { useMeasure } from "@uidotdev/usehooks";
+import { useAppSelector } from "../app/hooks";
+import { selectUser } from "../features/auth/authSlice";
+import ChatmessageInput from "../features/chatrooms/ChatmessageInput";
 
 function Chat() {
+  //get logged user
+  const user = useAppSelector(selectUser);
   const params = useParams<{ id: string }>();
   const [chatroom, setChatroom] = useState<IChatroom | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -16,8 +21,8 @@ function Chat() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const lastReadMessageRef = useRef<HTMLDivElement>(null);
   const heightRef = useRef(0);
-  const [measureRef, { height: newHeight }] = useMeasure();
-
+  //const [measureRef, { height: newHeight }] = useMeasure();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!params.id) return;
@@ -44,6 +49,39 @@ function Chat() {
     /* scrollToBottom(); */
   }, []);
 
+  //Listener de nuevos mensajes
+
+  useEffect(() => {
+    window.Echo.private(`chatroom-${params.id}`).listen(
+      ".message",
+      (event: ChatMessage) => {
+        //console.log(event);
+        setMessages(prev => [...prev, event]);
+
+       /*  console.log(messagesContainerRef.current?.scrollHeight);
+        console.log(messagesContainerRef.current?.scrollTop); */
+
+        if (scrollRef.current) {
+          
+          
+          const userOnBottom =
+            Math.abs(
+              scrollRef.current.scrollHeight -
+                scrollRef.current?.clientHeight -
+                scrollRef.current?.scrollTop
+            ) <= 100;
+            console.log(userOnBottom);
+            
+            if (userOnBottom) scrollToBottomC();
+        }
+      }
+    );
+
+    return () => {
+      window.Echo.private(`chatroom-${params.id}`).stopListening(".message");
+    };
+  }, []);
+
   /*  useEffect(() => {
     scrollToBottom();
   },[messagesContainerRef.current, bottomDivRef.current]); */
@@ -63,8 +101,6 @@ function Chat() {
     }, 2);
   }; */
 
- 
-
   const scrollToBottomC = useCallback(() => {
     setTimeout(() => {
       //console.log("scroll in view");
@@ -74,31 +110,30 @@ function Chat() {
         behavior: "smooth",
       }); */
     }, 1);
-  },[]);
+  }, []);
 
-  const scrollToLast = useCallback(() => {
+  /*  const scrollToLast = useCallback(() => {
     //console.log(`scroll - old: ${heightRef.current}, new: ${newHeight}`);
     if (newHeight > heightRef.current) {
       messagesContainerRef.current.scrollTop = newHeight - heightRef.current;
       heightRef.current = newHeight;
     }
-  }, [newHeight]);
+  }, [newHeight]); */
 
   useEffect(() => {
     //scroll hasta abajo sólo al entrar, cuando no se han cargado más mensajes
-    if(messages.length <= 15){
+    if (messages.length <= 15) {
       scrollToBottomC();
-      heightRef.current = newHeight;
+      // heightRef.current = newHeight;
     }
 
-    scrollToLast();
-      
-  },[scrollToBottomC,scrollToLast, messages]);
+    // scrollToLast();
+  }, [scrollToBottomC, /* scrollToLast, */ messages]);
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
     const scrollTop = (e.target as HTMLElement).scrollTop;
-    //const { scrollTop, scrollHeight, clientHeight } = e.target;
-    //console.log(scrollTop, scrollHeight, clientHeight);
+    const { scrollHeight, clientHeight } = e.target;
+   // console.log( /* scrollHeight, clientHeight,  */scrollTop);
 
     //cuando se llega arriba se hace una petición
     if (scrollTop == 0 && nextCursor != null) {
@@ -113,10 +148,14 @@ function Chat() {
         });
     }
   };
+   
 
   return (
-    <Container className="dark-bg d-flex flex-column justify-content-center align-content-center mt-4">
-      <Row className="align-content-center justify-content-center" ref={messagesContainerRef}>
+    <Container className="dark-bg d-flex flex-column justify-content-center align-content-center mt-4 mb-5">
+      <Row
+        className="align-content-center justify-content-center"
+        ref={messagesContainerRef}
+      >
         <Col xs={12} sm={10} md={9}>
           <h5>{chatroom?.name}</h5>
         </Col>
@@ -126,18 +165,29 @@ function Chat() {
           md={9}
           id="chat-container"
           onScroll={e => handleScroll(e)}
-          ref={measureRef}
+          ref={scrollRef}
         >
-          {messages?.map((message, i) => {
-            let assignRef = null;
-            if (i == messages.length - 1) {
-               assignRef = lastReadMessageRef;
-            }
-            return <Chatmessage key={message.message.id} message={message} ref={assignRef} />;
-          })}
-          <div ref={bottomDivRef}></div>
+          <div className="d-flex flex-column">
+            {messages?.map((message, i) => {
+              let assignRef = null;
+              if (i == messages.length - 1) {
+                assignRef = lastReadMessageRef;
+              }
+              return (
+                <Chatmessage
+                  key={message.message.id}
+                  message={message}
+                  ref={assignRef}
+                  currentUser={user?.username == message.user.username}
+                />
+              );
+            })}
+            <div ref={bottomDivRef}></div>
+          </div>
         </Col>
-        
+        <Col xs={12} sm={10} md={9}>
+          <ChatmessageInput />
+        </Col>
       </Row>
     </Container>
   );

@@ -71,3 +71,10 @@ export interface ChatUserInfo {
   username: string,
   avatar: string
 }
+
+export interface SendChatmessage {
+  content : string,
+  chatroom: string,
+  mod? : string | null,
+  character?: string | null,
+}
