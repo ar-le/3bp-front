@@ -78,3 +78,8 @@ export interface SendChatmessage {
   mod? : string | null,
   character?: string | null,
 }
+
+export interface ITeam{
+  id: string,
+  name: string
+}

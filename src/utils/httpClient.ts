@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 
 //import { selectToken} from "../features/auth/authSlice";
 export const BASE_URL = 'http://3bpapi.lo/api/'
@@ -15,10 +16,12 @@ export const httpClient = axios.create({
     'accept': 'application/json'}
 });
 
-//añadir header authorization cuando hay un token almacenado
-/* httpClient.interceptors.request.use(function (config) {
-  const user = useAppSelector(selectUser);
-  if(user) config.headers['Authorization'] =  `Bearer ${user.token}`;
-  
-  return config;
-}); */
+
+httpClient.interceptors.response.use(function (response){
+  return response;
+}, function (error)
+{
+  toast.error('Connection error. Try again later')
+  return Promise.reject(error);
+});
+

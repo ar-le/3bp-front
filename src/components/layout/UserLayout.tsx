@@ -100,7 +100,7 @@ export default function UserLayout() {
                     </NavDropdown>
 
                     <Nav.Item>
-                      <Link to="/chatrooms">
+                      <Link to="/">
                         <i className="bi bi-chat-left-fill text-lg"></i>
                       </Link>
                     </Nav.Item>

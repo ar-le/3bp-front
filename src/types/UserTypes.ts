@@ -1,3 +1,5 @@
+import { IChatroom, ITeam } from "./GeneralTypes"
+
 export interface ILogin {
     email : string,
     password: string
@@ -28,4 +30,20 @@ export interface ILoggedUser {
     avatar: string | null
 }
 
+export interface IUserProfile{
+    id : string,
+    username: string,
+    avatar: string,
+    totalMessages: number,
+    mostUsedChats: IChatroom[],
+    team? : ITeam,
+    points? : number,
+    recruitingTeam? : ITeam,
+    joined: string
+}
 
+//export type NewUserPoints = Pick<IUserProfile, 'points'>;
+
+export interface NewUserPoints {
+    points: number
+}
