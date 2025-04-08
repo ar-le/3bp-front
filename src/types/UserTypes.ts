@@ -26,7 +26,7 @@ export interface ILoggedUser {
     username: string | null,
     role: string | null,
     token: string,
-    team_id: string | null,
+    team: ITeam,
     avatar: string | null
 }
 

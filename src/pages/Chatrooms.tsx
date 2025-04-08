@@ -3,22 +3,14 @@ import { Col, Container, Row } from "react-bootstrap";
 import { IChatroom, PaginatedResponse } from "../types/GeneralTypes";
 import { ChatroomsApi } from "../features/chatrooms/chatroomsApi";
 import ChatSection from "../features/chatrooms/ChatSection";
+import { useAppSelector } from "../app/hooks";
+import { selectTeam } from "../features/auth/authSlice";
 
 function Chatrooms() {
- // const [chatrooms, setChatrooms] =
+  const userTeam = useAppSelector(selectTeam);
     useState<PaginatedResponse<IChatroom> | null>(null);
- // const [teamChatrooms, setTeamChatrooms] =
     useState<PaginatedResponse<IChatroom> | null>(null);
 
-/*   useEffect(() => {
-    ChatroomsApi.getChatrooms().then(response => {
-      setChatrooms(response.data);
-    });
-
-    ChatroomsApi.getTeamChatrooms().then(response => {
-      setTeamChatrooms(response.data);
-    });
-  }, []); */
 
   return (
     <Container className="dark-bg d-flex flex-column justify-content-center align-content-center mt-4">
@@ -27,7 +19,7 @@ function Chatrooms() {
           <h5>Chatrooms</h5>
           <Row className="gy-3 justify-content-between">
             {/* Team chatroom */}
-            <ChatSection type="team"  />
+            {userTeam && <ChatSection type="team"  />}
             <ChatSection type="general"  />
           </Row>
         </Col>

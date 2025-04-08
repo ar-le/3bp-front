@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Image from "react-bootstrap/Image";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { logout, logoutAsync, selectUser } from "../../features/auth/authSlice";
+import { logout, logoutAsync, selectTeam, selectUser, setTeam } from "../../features/auth/authSlice";
 //import genericIcon from "./../../assets/icons/personicon.png";
 import "./styles/userLayout.scss";
 import { Col, Container, Row } from "react-bootstrap";
@@ -21,6 +21,8 @@ export default function UserLayout() {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const location = useLocation();
+  const team = useAppSelector(selectTeam);
+  
 
   const [newTransmissions, setNewTransmissions] = useState(false);
 
@@ -52,12 +54,18 @@ export default function UserLayout() {
   async function handleLogout() {
     await dispatch(logoutAsync());
     dispatch(logout());
+    document.querySelector('body')!.className = '';
+    dispatch(setTeam(''));
+    
     LocalStorageManager.remove("loggedUser");
+    LocalStorageManager.remove("team");
     //eliminar header authorization
-    httpClient.interceptors.request.use(function (config) {
+   /*  httpClient.interceptors.request.use(function (config) {
       config.headers["Authorization"] = null;
       return config;
-    });
+    }); */
+
+    httpClient.interceptors.request.clear();
     //eliminar liustener y cerrar la conexión para que no se acumulen si se vuelve a entrar sin cerrar la ventana
     /* window.Echo.private(`transmissions-channel`).stopListening(".transmission")
     window.Echo.leave(`transmissions-channel`); */

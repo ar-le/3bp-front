@@ -16,13 +16,14 @@ import {TransmissionDetail} from './pages/TransmissionDetail.tsx';
 import Chatrooms from './pages/Chatrooms.tsx';
 import Chat from './pages/Chat.tsx';
 import UserProfile from './pages/UserProfile.tsx';
+import Recruiting from './pages/Recruiting.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
     <Provider store={store}>
         <BrowserRouter>
         <Routes>
-                <Route element={<AuthGuard roles={[]} redirectPath='/chatrooms'/>}>
+                <Route element={<AuthGuard roles={[]} redirectPath='/'/>}>
                     <Route path='/login' element={<Login/>}></Route>
                     <Route path='/register' element={<Register/>}></Route>
                 </Route>
@@ -34,7 +35,9 @@ createRoot(document.getElementById('root')!).render(
                      <Route path='/' element={<Chatrooms/>}></Route> 
                      <Route path='chatrooms/:id' element={<Chat/>}/>
                      <Route path='user/:id' element={<UserProfile/>}></Route>
+                     
                    </Route>
+                   <Route path='recruit/:id' element={<Recruiting/>}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>

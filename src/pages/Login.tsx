@@ -10,7 +10,7 @@ import { ILoggedUser, ILogin } from "../types/UserTypes";
 
 import { LocalStorageManager } from "../utils/localStorageManagement";
 import { useAppDispatch } from "../app/hooks";
-import { loginAsync } from "../features/auth/authSlice";
+import { loginAsync, setTeam } from "../features/auth/authSlice";
 import { useState } from "react";
 import { httpClient } from "../utils/httpClient";
 import { createWebsocketConnection } from "../utils/echo";
@@ -36,7 +36,10 @@ function Login() {
         "loggedUser",
         user
       );
-
+      dispatch(setTeam(user.team.name));
+      LocalStorageManager.put<string>('team', user.team.name)
+      console.log(user.token);
+      
       //crear un interceptor que añade el token a las peticiones
       httpClient.interceptors.request.use(function (config) {
         //const user = useAppSelector(selectUser);

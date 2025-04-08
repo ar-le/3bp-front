@@ -6,6 +6,7 @@
   --background-accent: #104774;
   --bg-accent-light: #1362A3;
   --bg-accent: #2889D9;
+  --green-darkest-2 : #1c2002;
   --green-darkest : #2D3400;
   --green-dark: #576600;
   --green-main: #7E9401;
@@ -16,9 +17,11 @@
   --error-main: #89012A;
   --error-light: #A10C39;
   --error-accent: #ED0048;
+    --orange-dark: rgb(119, 59, 9);
   --orange-main: #994601;
   --orange-light: #B4590D;
   --orange-accent: #FF7400;
+  --orange-text: #361a04;
   --white: #F2F4F9;
 
   --text-xs: 10pt;

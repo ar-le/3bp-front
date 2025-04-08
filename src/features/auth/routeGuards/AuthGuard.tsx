@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { login, selectUser } from "../authSlice";
+import { login, selectTeam, selectUser, setTeam } from "../authSlice";
 import { ProtectedRouteProps } from "./ProtectedRouteTypes";
 import { LocalStorageManager } from "../../../utils/localStorageManagement";
 import { ILoggedUser } from "../../../types/UserTypes";
@@ -15,6 +15,7 @@ function AuthGuard({
 }: ProtectedRouteProps) {
   const dispatch = useAppDispatch();
   let user: ILoggedUser | null = useAppSelector(selectUser);
+  let team : string |null = useAppSelector(selectTeam);
   console.log("authroute");
   console.log(user);
 
@@ -28,9 +29,17 @@ function AuthGuard({
     if (user) createWebsocketConnection(user.token);
   }, [user]);
 
+  //si se lee un equipo añadirlo al estado
+  useEffect(() => {
+    if(team != null || team != '')
+      dispatch(setTeam(team ?? ''))
+   
+  },[team])
+
   //si no hay user buscar en localstorage
   if (!useAppSelector(selectUser)) {
     user = LocalStorageManager.get<ILoggedUser>("loggedUser");
+    
 
     httpClient.interceptors.request.use(function (config) {
       if (user) config.headers["Authorization"] = `Bearer ${user.token}`;
@@ -39,6 +48,17 @@ function AuthGuard({
     });
     //si hay información guardarla en el estado
     //if(user) dispatch(login(user));
+  }
+
+  if(!useAppSelector(selectTeam))
+  {
+    team = LocalStorageManager.get<string>('team');
+  }
+
+  //si hay equipo añadir una clase para que modifique el css
+  if(team)
+  {
+    document.querySelector('body')?.classList.add(team.toLowerCase());
   }
 
   /*Se redirige si:

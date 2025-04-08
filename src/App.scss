@@ -59,6 +59,16 @@ body{
     @extend .ubuntu-mono-regular
 }
 
+body.escapists{
+  background-color: var(--green-dark);
+    color: var(--green-light);
+}
+
+body.resistance{
+  background-color: var(--orange-dark);
+    color: var(--orange-text);
+}
+
 .full-height{
     height: 100vh;
 }
@@ -72,12 +82,36 @@ body{
     background-color: var(--bg-darkest);
 }
 
+.escapists .div-bg-dark{
+  background-color: var(--green-darkest);
+}
+
+.resistance .div-bg-dark{
+  background-color: var(--orange-main);
+}
+
 .div-bg-medium{
   background-color: var(--bg-darkest-2);
 }
 
+.escapists .div-bg-medium{
+  background-color: var(--green-darkest-2);
+}
+
+.resistance .div-bg-medium{
+  background-color: var(--orange-light);
+}
+
 .div-bg-light{
   background-color: var(--main-background);
+}
+
+.escapists .div-bg-light{
+  background-color: var(--green-main);
+}
+
+.resistance .div-bg-light{
+  background-color: var(--orange-accent);
 }
 
 .text-white{

@@ -1,4 +1,4 @@
-import {ChatUserInfo, PaginatedResponse, JsonResponseSingle, JsonResponseList } from "../../types/GeneralTypes";
+import {ChatUserInfo, PaginatedResponse, JsonResponseSingle, JsonResponseList, MessageResponse } from "../../types/GeneralTypes";
 import { IUserProfile, NewUserPoints } from "../../types/UserTypes";
 import { httpClient } from "../../utils/httpClient";
 
@@ -18,5 +18,11 @@ export class UsersApi{
     {
         return httpClient.put<JsonResponseSingle<IUserProfile>>('users/givePoints', {user , points});
     }
+
+    static async joinTeam(team: string, password: string)
+    {
+        return httpClient.get<MessageResponse>('joinTeam', {params : {team, password}})
+    }
+
 
 }

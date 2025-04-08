@@ -5,12 +5,14 @@ import { AuthApi } from './authApi'
 
 interface AuthState{
     user : ILoggedUser | null,
-    status : 'idle' | 'loading' | 'failed'
+    status : 'idle' | 'loading' | 'failed',
+    team : string | null
 }
 
 const initialState : AuthState = {
     user : null,
-    status: 'idle'
+    status: 'idle',
+    team: null
 }
 
 
@@ -23,7 +25,10 @@ export const authSlice = createSlice({
       }, 
       logout: (state) => {
         state.user = null
-      }
+      },
+      setTeam: (state, action: PayloadAction<string>) => {
+        state.team = action.payload
+      },
     },
     extraReducers(builder) {
       builder
@@ -53,13 +58,14 @@ export const authSlice = createSlice({
 })
 
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setTeam } = authSlice.actions;
 
 export const selectUsername = (state: RootState) => state.auth.user?.username;
 /* export const selectRole = (state: RootState) => state.auth.user?.role;
 export const selectToken = (state: RootState) => state.auth.user?.token;
 export const selectTeam = (state: RootState) => state.auth.user?.team_id; */
 export const selectUser = (state: RootState) => state.auth.user; 
+export const selectTeam = (state: RootState) => state.auth.team; 
 export const selectAuthSliceStatus = (state: RootState) => state.auth.status; 
 
 //meter en la store para poder leer state
