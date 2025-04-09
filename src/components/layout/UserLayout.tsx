@@ -112,6 +112,12 @@ export default function UserLayout() {
                         <i className="bi bi-chat-left-fill text-lg"></i>
                       </Link>
                     </Nav.Item>
+
+                    {user?.role == 'admin' && <Nav.Item>
+                      <Link to="/panel" className="ms-5">
+                        <i className="bi bi-gear-fill"></i>
+                      </Link>
+                    </Nav.Item>}
                   </div>
                 </div>
 

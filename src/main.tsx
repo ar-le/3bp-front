@@ -17,6 +17,8 @@ import Chatrooms from './pages/Chatrooms.tsx';
 import Chat from './pages/Chat.tsx';
 import UserProfile from './pages/UserProfile.tsx';
 import Recruiting from './pages/Recruiting.tsx';
+import AdminLayout from './components/layout/AdminLayout.tsx';
+import TransmissionsPanel from './pages/panel/TransmissionsPanel.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -35,7 +37,11 @@ createRoot(document.getElementById('root')!).render(
                      <Route path='/' element={<Chatrooms/>}></Route> 
                      <Route path='chatrooms/:id' element={<Chat/>}/>
                      <Route path='user/:id' element={<UserProfile/>}></Route>
-                     
+                     <Route element={<AuthGuard roles={['admin']} redirectPath='/'/>}>
+                        <Route path='panel' element={<AdminLayout/>} > 
+                            <Route path='transmissions' element={<TransmissionsPanel/>}></Route>
+                        </Route>
+                     </Route>
                    </Route>
                    <Route path='recruit/:id' element={<Recruiting/>}></Route>
                 </Route>
