@@ -8,7 +8,10 @@ export interface ITransmission {
   content: string;
   type: string;
   date: string;
-}
+};
+
+export type PostTransmission = Pick<ITransmission,'title'| 'content' | 'type'>;
+export type PutTransmission = Pick<ITransmission,'id' | 'title'| 'content' | 'type'>;
 
 export interface JsonResponseList<T> {
   total: number;

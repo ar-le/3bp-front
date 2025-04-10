@@ -30,6 +30,9 @@
   --text-lg: 16pt;
   --text-xl: 20pt;
   --text-xxl: 25pt;
+
+  
+  --bs-table-bg: var(--bg-dark);
 }
 
  

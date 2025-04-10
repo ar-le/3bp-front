@@ -7,7 +7,7 @@ function AdminLayout() {
   const [showSidebar, setShowSidebar] = useState(false);
   return (
     <>
-      <div className="d-flex">
+      <div className="d-flex align-items-start">
         <Button
           variant="primary"
           className="d-lg-none mx-4 mt-3"

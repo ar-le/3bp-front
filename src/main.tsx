@@ -19,6 +19,7 @@ import UserProfile from './pages/UserProfile.tsx';
 import Recruiting from './pages/Recruiting.tsx';
 import AdminLayout from './components/layout/AdminLayout.tsx';
 import TransmissionsPanel from './pages/panel/TransmissionsPanel.tsx';
+import TransmissionForm from './pages/panel/TransmissionsForm.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
                      <Route element={<AuthGuard roles={['admin']} redirectPath='/'/>}>
                         <Route path='panel' element={<AdminLayout/>} > 
                             <Route path='transmissions' element={<TransmissionsPanel/>}></Route>
+                            <Route path='transmissions/create/:id?' element={<TransmissionForm/>} />
                         </Route>
                      </Route>
                    </Route>

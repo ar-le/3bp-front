@@ -6,7 +6,8 @@ import "./styles/textInputStyle.scss"
 import classNames from "classnames";
 
 interface TextInputProps extends InputProps{
-    password?: boolean
+    password?: boolean,
+    as?: 'textarea'
     //ref? : React.Ref<HTMLInputElement | null>
 }
 
