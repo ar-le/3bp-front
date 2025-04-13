@@ -1,5 +1,5 @@
 import {ChatUserInfo, PaginatedResponse, JsonResponseSingle, JsonResponseList, MessageResponse } from "../../types/GeneralTypes";
-import { IUserProfile, NewUserPoints } from "../../types/UserTypes";
+import { IUser, IUserProfile, NewUserPoints, PostUser } from "../../types/UserTypes";
 import { httpClient } from "../../utils/httpClient";
 
 
@@ -22,6 +22,31 @@ export class UsersApi{
     static async joinTeam(team: string, password: string)
     {
         return httpClient.get<MessageResponse>('joinTeam', {params : {team, password}})
+    }
+
+    static async getAll(page:string)
+    {
+        return httpClient.get<PaginatedResponse<IUser>>('users', {params: {page: page}});
+    }
+
+    static async delete(id: string)
+    {
+        return httpClient.delete(`users/${id}`);
+    }
+
+    static async get(id:string)
+    {
+        return httpClient.get(`users/${id}`);
+    }
+
+    static async create(user : PostUser)
+    {
+        return httpClient.post<IUser>(`users`, user);
+    }
+
+    static async update(user : PostUser)
+    {
+        return httpClient.put<IUser>(`users`, user);
     }
 
 

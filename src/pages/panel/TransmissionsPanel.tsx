@@ -3,7 +3,6 @@ import { ITransmission } from "../../types/GeneralTypes";
 import { TransmissionsApi } from "../../features/transmissions/transmissionsApi";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router";
-import { httpClient } from "../../utils/httpClient";
 import { toast } from "react-toastify";
 
 function TransmissionsPanel() {
@@ -24,21 +23,6 @@ function TransmissionsPanel() {
       setTransmissions(response.data.data);
     });
 
-    window.Echo.private(`transmissions-channel`).listen(
-      ".transmission",
-      (event: ITransmission) => {
-        console.log(event);
-
-        if (transmissions)
-          setTransmissions(transmissions => [...transmissions, event]);
-      }
-    );
-
-    return () => {
-      window.Echo.private(`transmissions-channel`).stopListening(
-        ".transmission"
-      );
-    };
   }, []);
 
   //actualizar filteredTransmissions cuando se modifica la lista de transmisiones
@@ -57,14 +41,7 @@ function TransmissionsPanel() {
     setPage(0);
   }, [filteredTransmissions]);
 
-  //actualizar filteredtranmissions cuando se modifica el filtro o la lista de transmisiones
-  useEffect(() => {
-    setFilteredTransmissions(
-      transmissions.filter(
-        t => t.title.includes(textFilter) || t.content.includes(textFilter)
-      )
-    );
-  }, [textFilter]);
+
 
   const handleDelete = (id: string) => {
     TransmissionsApi.delete(id).then(() => {

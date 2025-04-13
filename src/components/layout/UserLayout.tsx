@@ -39,6 +39,8 @@ export default function UserLayout() {
         console.log(event);
         dispatch(newTransmission(event));
         turnOnNewTransmission();
+        console.log('new transmission alyout');
+        
       }
     );
 

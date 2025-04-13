@@ -47,3 +47,32 @@ export interface IUserProfile{
 export interface NewUserPoints {
     points: number
 }
+
+export interface IUser {
+    id: string;
+    username: string;
+    avatar: string | null;
+    team: ITeam;
+    role: string; 
+    email: string;
+    points: number;
+  }
+
+  export interface PostUser {
+    username: string;
+    password: string;
+    email: string;
+    points: number;
+    role: 'admin' | 'mod' | 'user';
+    team_id?: string;
+    accepts_cookies: boolean;
+    accepts_communication: boolean;
+    extension : string,
+    base64Avatar: string,
+    id? : string
+  }
+  
+  export interface PutUser extends Omit<PostUser, 'password'> {
+    id: string;
+    password?: string;
+  }
