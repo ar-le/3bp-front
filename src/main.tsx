@@ -20,6 +20,10 @@ import Recruiting from './pages/Recruiting.tsx';
 import AdminLayout from './components/layout/AdminLayout.tsx';
 import TransmissionsPanel from './pages/panel/TransmissionsPanel.tsx';
 import TransmissionForm from './pages/panel/TransmissionsForm.tsx';
+import UsersPanel from './pages/panel/UsersPanel.tsx';
+import UsersForm from './pages/panel/UsersForm.tsx';
+import ChatroomsPanel from './pages/panel/ChatroomsPanel.tsx';
+import ChatroomsForm from './pages/panel/ChatroomsForm.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -42,6 +46,10 @@ createRoot(document.getElementById('root')!).render(
                         <Route path='panel' element={<AdminLayout/>} > 
                             <Route path='transmissions' element={<TransmissionsPanel/>}></Route>
                             <Route path='transmissions/create/:id?' element={<TransmissionForm/>} />
+                            <Route path='users' element={<UsersPanel/>}></Route>
+                            <Route path='users/create/:id?' element={<UsersForm/>} />
+                            <Route path='chatrooms' element={<ChatroomsPanel/>}></Route>
+                            <Route path='chatrooms/create/:id?' element={<ChatroomsForm/>} />
                         </Route>
                      </Route>
                    </Route>

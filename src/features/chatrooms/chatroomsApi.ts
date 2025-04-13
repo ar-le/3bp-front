@@ -26,6 +26,11 @@ export class ChatroomsApi{
         return httpClient.post<JsonResponseSingle<IChatroom>>('chatrooms/create', chatroom);
     }
 
+    static async updateChatroom (chatroom : IPostChatroom)
+    {
+        return httpClient.put<JsonResponseSingle<IChatroom>>('chatrooms', chatroom);
+    }
+
     static async getMessages(chatroom: string, cursor: string)
     {
         return httpClient.get<PaginatedResponse<ChatMessage>>(`chatmessages`, {params: {
@@ -42,5 +47,10 @@ export class ChatroomsApi{
     static async reportMessage(message: string)
     {
         return httpClient.get<ChatMessage>('chatmessages/report', {params : {id: message}});
+    }
+
+    static async deleteChatroom(id :string)
+    {
+        return httpClient.delete(`chatrooms/${id}`);
     }
 }
