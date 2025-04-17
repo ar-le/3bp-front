@@ -7,8 +7,8 @@ import { ChatMessage, PaginatedResponse } from "../../types/GeneralTypes";
 import { Link, useParams } from "react-router";
 import { ChatroomsApi } from "../../features/chatrooms/chatroomsApi";
 
-function ChatMessagesPanel() {
-  const { chatroomId } = useParams<{ chatroomId: string }>();
+function ReportedChatMessagesPanel() {
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
   const [prevCursor, setPrevCursor] = useState<string | null>(null);
@@ -23,7 +23,7 @@ function ChatMessagesPanel() {
 
   const loadMessages = (currCursor: string) => {
     setIsLoading(true);
-    ChatroomsApi.getMessages(chatroomId!, currCursor ?? "")
+    ChatroomsApi.getReportedMessages(currCursor ?? "")
       .then(response => {
         const newMessages = response.data.data;
         setMessages(newMessages);
@@ -75,12 +75,8 @@ function ChatMessagesPanel() {
   return (
     <div className="full-width">
       <div className="d-flex m-4 align-items-center">
-        <h2>Chat Messages - Room {chatroomId}</h2>
-        <Link to={`/chatrooms/${chatroomId}`}>
-          <Button variant="secondary" className="ms-3">
-            Go to Chatroom
-          </Button>
-        </Link>
+        <h2>Reported Chat Messages</h2>
+      
       </div>
 
       <Table striped bordered hover className="m-4" responsive>
@@ -150,4 +146,4 @@ function ChatMessagesPanel() {
   );
 }
 
-export default ChatMessagesPanel;
+export default ReportedChatMessagesPanel;

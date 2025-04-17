@@ -5,15 +5,13 @@ import { toast } from "react-toastify";
 import { ChatroomsApi } from "../../features/chatrooms/chatroomsApi";
 import { IChatroom } from "../../types/GeneralTypes";
 
-
-
 function ChatroomsPanel() {
   const [chatrooms, setChatrooms] = useState<IChatroom[]>([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
 
   useEffect(() => {
-    ChatroomsApi.getChatrooms({page : page.toString()}).then(response => {
+    ChatroomsApi.getChatrooms({ page: page.toString() }).then(response => {
       setChatrooms(response.data.data);
       setPages(response.data.meta.last_page);
     });
@@ -54,21 +52,22 @@ function ChatroomsPanel() {
               <td>{chatroom.creator.username}</td>
               <td>
                 <Link to={`chatmessages/${chatroom.id}`}>
-                  <Button><i className="bi bi-chat-fill"></i></Button>
-                </Link >
+                  <Button>
+                    <i className="bi bi-chat-fill"></i>
+                  </Button>
+                </Link>
               </td>
               <td>
                 <Link to={`create/${chatroom.id}`}>
                   <Button>Edit</Button>
                 </Link>
-                
-                  <Button 
-                    variant="danger" 
-                    onClick={() => handleDelete(chatroom.id)}
-                  >
-                    Delete
-                  </Button>
-                
+
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(chatroom.id)}
+                >
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
@@ -92,6 +91,9 @@ function ChatroomsPanel() {
           <i className="bi bi-arrow-right-short"></i>
         </Button>
       </div>
+      <Link to={"chatmessages/reported"} className="mt-4">
+        <Button className="mt-4"><i className="bi bi-exclamation-octagon-fill"></i> Reported messages</Button>
+      </Link>
     </div>
   );
 }

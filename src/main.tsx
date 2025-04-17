@@ -25,6 +25,7 @@ import UsersForm from './pages/panel/UsersForm.tsx';
 import ChatroomsPanel from './pages/panel/ChatroomsPanel.tsx';
 import ChatroomsForm from './pages/panel/ChatroomsForm.tsx';
 import ChatMessagesPanel from './pages/panel/ChatmessagesPanel.tsx';
+import ReportedChatMessagesPanel from './pages/panel/ReportedChatMessagesPanel.tsx';
 
 createRoot(document.getElementById('root')!).render(
 
@@ -52,6 +53,7 @@ createRoot(document.getElementById('root')!).render(
                             <Route path='chatrooms' element={<ChatroomsPanel/>}></Route>
                             <Route path='chatrooms/create/:id?' element={<ChatroomsForm/>} />
                             <Route path='chatrooms/chatmessages/:chatroomId?' element={<ChatMessagesPanel/>} />
+                            <Route path='chatrooms/chatmessages/reported' element={<ReportedChatMessagesPanel/>} />
                         </Route>
                      </Route>
                    </Route>
