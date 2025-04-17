@@ -41,6 +41,7 @@ function ChatroomsPanel() {
             <th>Name</th>
             <th>Description</th>
             <th>Creator</th>
+            <th>Messages</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -51,6 +52,11 @@ function ChatroomsPanel() {
               <td>{chatroom.name}</td>
               <td>{chatroom.description}</td>
               <td>{chatroom.creator.username}</td>
+              <td>
+                <Link to={`chatmessages/${chatroom.id}`}>
+                  <Button><i className="bi bi-chat-fill"></i></Button>
+                </Link >
+              </td>
               <td>
                 <Link to={`create/${chatroom.id}`}>
                   <Button>Edit</Button>

@@ -61,6 +61,7 @@ export interface PaginatedResponse<T> {
 export interface ChatMessage{
   message: Message,
   user: ChatUserInfo,
+  chatroom: IChatroom
 }
 
 export interface Message {

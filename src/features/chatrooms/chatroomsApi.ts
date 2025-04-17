@@ -39,6 +39,15 @@ export class ChatroomsApi{
         }});
     }
 
+
+    static async getReportedMessages(cursor: string)
+    {
+        return httpClient.get<PaginatedResponse<ChatMessage>>(`chatmessages/reported`, {params: {
+            cursor,
+        }});
+    }
+
+
     static async sendMessage(info : SendChatmessage)
     {
         return httpClient.post<ChatMessage>('chatmessages/send', info);
@@ -47,6 +56,16 @@ export class ChatroomsApi{
     static async reportMessage(message: string)
     {
         return httpClient.get<ChatMessage>('chatmessages/report', {params : {id: message}});
+    }
+
+    static async hideMessage(message:string)
+    {
+        return httpClient.put<ChatMessage>('chatmessages/hide',  {id: message});
+    }
+
+    static async deleteMessage(message:string)
+    {
+        return httpClient.delete<ChatMessage>('chatmessages', {params : {id: message}});
     }
 
     static async deleteChatroom(id :string)
