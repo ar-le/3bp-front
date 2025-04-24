@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
 //import { selectToken} from "../features/auth/authSlice";
-export const BASE_URL = 'http://3bpapi.lo/api/'
-
+//export const BASE_URL = 'http://3bpapi.lo/api/'
+export const BASE_URL = 'https://api.tbp.es/api/'
 export function httpResponseOk(response: AxiosResponse)
 {
     return response.status >= 200 && response.status <= 299;
