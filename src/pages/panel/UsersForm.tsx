@@ -85,8 +85,8 @@ const UserForm = () => {
             points: userData.points,
             role: userData.role,
             team_id: userData.team?.id || "",
-            accepts_cookies: userData.accepts_cookies,
-            accepts_communication: userData.accepts_communication,
+            accepts_cookies: Boolean(userData.accepts_cookies),
+            accepts_communication: Boolean(userData.accepts_communication),
             id: userData.id,
             extension: '',
             base64Avatar: '',
@@ -137,8 +137,8 @@ const UserForm = () => {
       .required("Role is required")
       .oneOf(["admin", "mod", "user"], "Invalid role"),
     team_id: Yup.string(),
-    accepts_cookies: Yup.boolean().required(),
-    accepts_communication: Yup.boolean().required(),
+    accepts_cookies: Yup.boolean().required().oneOf([true], "You must accept cookies"),
+    accepts_communication: Yup.boolean().required().oneOf([true], "You must accept communications"),
     avatar: Yup.mixed()
                   .nullable()
                   .notRequired()
