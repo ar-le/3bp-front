@@ -41,14 +41,20 @@ function AuthGuard({
     user = LocalStorageManager.get<ILoggedUser>("loggedUser");
     
 
-    httpClient.interceptors.request.use(function (config) {
+ /*    httpClient.interceptors.request.use(function (config) {
+      if (user) config.headers["Authorization"] = `Bearer ${user.token}`;
+
+      return config;
+    }); */
+    //si hay información guardarla en el estado
+    //if(user) dispatch(login(user));
+  }
+
+  httpClient.interceptors.request.use(function (config) {
       if (user) config.headers["Authorization"] = `Bearer ${user.token}`;
 
       return config;
     });
-    //si hay información guardarla en el estado
-    //if(user) dispatch(login(user));
-  }
 
   if(!useAppSelector(selectTeam))
   {

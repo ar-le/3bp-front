@@ -36,17 +36,20 @@ function Login() {
         "loggedUser",
         user
       );
+      LocalStorageManager.put<string>('cosa', 'cosa');
       dispatch(setTeam(user.team.name));
       LocalStorageManager.put<string>('team', user.team.name)
-      console.log(user.token);
+      console.log(user);
+      console.log('login');
+      
       
       //crear un interceptor que añade el token a las peticiones
-      httpClient.interceptors.request.use(function (config) {
+       httpClient.interceptors.request.use(function (config) {
         //const user = useAppSelector(selectUser);
         config.headers['Authorization'] =  `Bearer ${user.token}`;
         
         return config;
-      });
+      },null, {synchronous:true});
 
       createWebsocketConnection(user.token);
       navigator("/");

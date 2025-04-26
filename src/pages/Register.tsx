@@ -35,22 +35,15 @@ function Register() {
   const dispatch = useAppDispatch();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const navigator = useNavigate();
-  const status = useAppSelector(selectAuthSliceStatus);
   const [serverValidationError, setServerValidationError] = useState(false);
 
   async function onSubmitHandler(data: IRegisterUser) {
     setServerValidationError(false);
 
-    const res = await dispatch(registerAsync(data));
-    if (status == "idle") {
-      /* LocalStorageManager.put<ILoggedUser>(
-        "loggedUser",
-        res.payload as ILoggedUser
-      ); */
-      navigator("/");
-    } else {
-      setServerValidationError(true);
-    }
+    //const res = await dispatch(registerAsync(data));
+     AuthApi.register(data)
+     .then(() => navigator("/"))
+     .catch(()=>setServerValidationError(true))
   }
   return (
     <>
@@ -94,6 +87,7 @@ function Register() {
             username: Yup.string()
               .required(userValidationMessages({ errorType: "required" }))
               .min(3, userValidationMessages({ errorType: "min", min: 3 }))
+              .matches(/^[^\s@]+$/, 'Invalid characters')
               .test(
                 "availableUsername",
                 userValidationMessages({
