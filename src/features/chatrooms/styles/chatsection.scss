@@ -1,3 +1,49 @@
-.filters-expand-container{
-    height: 3.5rem;
+.filters-expand-container {
+  height: 3.5rem;
 }
+.resistance {
+  .icon {
+    color: var(--orange-darkest);
+  }
+
+  .btn{
+    color: var(--orange-accent);
+    i {
+        color: var(--orange-accent);
+      }
+    background-color: var(--orange-dark) !important;
+    border-color: var(--orange-light);
+    &:hover{
+        
+        background-color: var(--orange-accent) !important;
+        color: var(--orange-dark) !important;
+        i {
+            color: var(--orange-dark);
+          }
+    }
+  }
+ 
+}
+
+
+.escapists {
+    
+  
+    .btn{
+      color: var(--green-darkest-2);
+      i {
+          color: var(--green-darkest-2);
+        }
+      background-color: var(--green-dark) !important;
+      border-color: var(--green-darkest);
+      &:hover{
+          
+          background-color: var(--green-light) !important;
+          color: var(--green-dark) !important;
+          i {
+              color: var(--green-dark);
+            }
+      }
+    }
+   
+  }

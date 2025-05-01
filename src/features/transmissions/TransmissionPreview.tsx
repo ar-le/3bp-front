@@ -2,11 +2,15 @@ import React from "react";
 import { ITransmission } from "../../types/GeneralTypes";
 import { Link } from "react-router";
 import { DateTime } from "luxon";
+import "./styles/transmissionPreview.scss";
+
 
 interface TransmissionPreviewProps {
   transmission: ITransmission;
   key: string;
 }
+
+
 function TransmissionPreview({
   transmission,
   ...props

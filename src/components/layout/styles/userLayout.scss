@@ -1,29 +1,79 @@
-header{
-    background-color: var(--main-background);
-    
+header {
+  background-color: var(--main-background);
 }
 
+.resistance header {
+  background-color: var(--orange-text);
+  a {
+    color: var(--orange-light);
+    :hover {
+      color: var(--orange-accent);
+    }
+  }
 
-.icon{
-    width: 40px;
-    object-fit: cover;
+  .nav-link{
+    color: var(--orange-light);
+    :hover {
+      color: var(--orange-accent);
+    }
+    :focus{
+      color: var(--orange-accent);
+    }
+
+  }
+  .dropdown-menu{
+    background-color: var(--orange-text);
+  }
 }
 
-.dropdown-menu{
-    background-color:var(--main-background);
+.escapists header {
+  background-color: var(--green-darkest);
+  a {
+    color: var(--green-main);
+    :hover {
+      color: var(--green-light);
+    }
+  }
+
+  .nav-link{
+    color: var(--green-main);
+    :hover {
+      color: var(--green-light);
+    }
+    :focus{
+      color: var(--green-light);
+    }
+
+  }
+
+  .dropdown-menu{
+    background-color: var(--green-darkest);
+  }
 }
 
-.newEventIcon{
-    -webkit-animation: fadeinout 4s linear infinite;
-    animation: fadeinout 4s linear infinite;
-    opacity: 0;
+.icon {
+  width: 40px;
+  object-fit: cover;
 }
 
+.dropdown-menu {
+  background-color: var(--main-background);
+}
+
+.newEventIcon {
+  -webkit-animation: fadeinout 4s linear infinite;
+  animation: fadeinout 4s linear infinite;
+  opacity: 0;
+}
 
 @-webkit-keyframes fadeinout {
-  50% { opacity: 1; }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeinout {
-  50% { opacity: 1; }
+  50% {
+    opacity: 1;
+  }
 }

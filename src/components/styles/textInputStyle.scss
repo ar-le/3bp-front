@@ -43,12 +43,43 @@ input[type="text"]{
     min-height: 4rem;
 }
 
+
 .error-msg{
     margin-left: 10px;
     font-size: var(--text-xs);
 }
 
+
 input::placeholder{
     color: var(--bg-accent-light);
 }
 
+.resistance {
+    .input-group-text{
+        color: var(--orange-accent);
+    }
+    .form-control{
+        color: var(--white);
+        background-color: var(--orange-text);
+    }
+
+    .input-group-text{
+        background-color: var(--orange-text);
+    }
+
+}
+
+.escapists {
+    .input-group-text{
+        color: var(--green-light);
+    }
+    .form-control{
+        color: var(--white);
+        background-color: var(--green-darkest);
+    }
+
+    .input-group-text{
+        background-color: var(--green-darkest);
+    }
+
+}

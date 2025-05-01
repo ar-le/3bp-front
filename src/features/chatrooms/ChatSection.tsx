@@ -107,7 +107,7 @@ function ChatSection(props: ChatSectionProps) {
                   className="d-lg-none mx-1"
                   onClick={handleShowFilters}
                 >
-                  <i className="bi bi-funnel-fill"></i>
+                  <i className="bi bi-funnel-fill icon"></i>
                 </Button>
                 <Button
                   variant="primary"
@@ -115,7 +115,7 @@ function ChatSection(props: ChatSectionProps) {
                   className="d-lg-none mx-1"
                   onClick={toggleCreateChatModal}
                 >
-                  <i className="bi bi-plus"></i>
+                  <i className="bi bi-plus icon" ></i>
                 </Button>
               </div>
             </Col>
@@ -157,7 +157,7 @@ function ChatSection(props: ChatSectionProps) {
                   className=" mx-1"
                   onClick={toggleCreateChatModal}
                 >
-                  <i className="bi bi-plus"></i>
+                  <i className="bi bi-plus icon"></i>
                 </Button>
                 </div>
               </Offcanvas.Body>
@@ -169,7 +169,7 @@ function ChatSection(props: ChatSectionProps) {
       <Row>
         <Col>
           {paginatedChatrooms?.data.map(chatroom => (
-            <ChatLink key={chatroom.id} chatroom={chatroom} />
+            <ChatLink  key={chatroom.id} chatroom={chatroom} />
           ))}
         </Col>
       </Row>

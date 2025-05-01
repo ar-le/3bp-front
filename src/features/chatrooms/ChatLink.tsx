@@ -2,13 +2,15 @@ import React from "react";
 import { IChatroom } from "../../types/GeneralTypes";
 import {Col, Row } from "react-bootstrap";
 import { Link } from "react-router";
+import "./styles/chatlink.scss";
+
 
 interface ChatLinkProps {
   chatroom: IChatroom;
 }
 function ChatLink({ chatroom }: ChatLinkProps) {
   return (
-    <Row className="div-bg-medium rounded my-2 py-2 aling-items-center">
+    <Row className="div-bg-medium rounded my-2 py-2 aling-items-center chat-container">
       <Col xs={10} className="d-flex align-items-center">
         {chatroom.name}
       </Col>

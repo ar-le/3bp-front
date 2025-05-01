@@ -6,3 +6,36 @@ input::placeholder{
     min-height: 300px;
     height: 40vh;
 }
+
+.resistance{
+    input::placeholder{
+        color: var(--orange-accent) !important;
+    }
+
+    .btn{
+        color: var(--orange-accent);
+        i {
+            color: var(--orange-accent);
+          }
+        background-color: var(--orange-light) !important;
+        border-color: var(--orange-light);
+        /* &:hover{
+            
+            background-color: var(--orange-accent) !important;
+            color: var(--orange-dark) !important;
+            i {
+                color: var(--orange-dark);
+              }
+        } */
+      }
+    /* .btn{
+        background-color: ;
+    } */
+}
+
+
+.escapists{
+    input::placeholder{
+        color: var(--green-light) !important;
+    }
+}
