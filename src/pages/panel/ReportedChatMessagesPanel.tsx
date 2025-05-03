@@ -84,6 +84,7 @@ function ReportedChatMessagesPanel() {
           <tr>
             <th>User</th>
             <th>Message</th>
+            <th>Chatroom</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -96,6 +97,7 @@ function ReportedChatMessagesPanel() {
                 {message.user.username}
               </td>
               <td>{message.message.content}</td>
+              <td>{message.chatroom.name}</td>
               <td>
                 <Badge bg={message.message.hidden ? "danger" : "success"}>
                   {message.message.hidden ? "Hidden" : "Visible"}

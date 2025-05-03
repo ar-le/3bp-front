@@ -37,9 +37,6 @@ function AdminLayout() {
                 <Link to={"chatrooms"}>Chatrooms</Link>
               </ListGroup.Item>
               
-              <ListGroup.Item action className="div-bg-dark">
-                <Link to={"messages"}>Messages</Link>
-              </ListGroup.Item>
             </ListGroup>
           </Offcanvas.Body>
         </Offcanvas>
