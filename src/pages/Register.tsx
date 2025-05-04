@@ -41,9 +41,12 @@ function Register() {
     setServerValidationError(false);
 
     //const res = await dispatch(registerAsync(data));
-     AuthApi.register(data)
-     .then(() => navigator("/"))
-     .catch(()=>setServerValidationError(true))
+    AuthApi.register(data)
+      .then(() => {
+        
+       navigator("/");
+      })
+      .catch(() => setServerValidationError(true));
   }
   return (
     <>
@@ -53,7 +56,7 @@ function Register() {
         className="full-height justify-content-center align-items-center"
       >
         <Formik
-          validateOnBlur={false} 
+          validateOnBlur={false}
           initialValues={{
             email: "",
             username: "",
@@ -87,7 +90,7 @@ function Register() {
             username: Yup.string()
               .required(userValidationMessages({ errorType: "required" }))
               .min(3, userValidationMessages({ errorType: "min", min: 3 }))
-              .matches(/^[^\s@]+$/, 'Invalid characters')
+              .matches(/^[^\s@]+$/, "Invalid characters")
               .test(
                 "availableUsername",
                 userValidationMessages({

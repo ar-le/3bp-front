@@ -115,7 +115,7 @@ export default function UserLayout() {
                       </Link>
                     </Nav.Item>
 
-                    {user?.role == 'admin' && <Nav.Item>
+                    {user?.role == 'admin' || user?.role == 'mod' && <Nav.Item>
                       <Link to="/panel" className="ms-5">
                         <i className="bi bi-gear-fill"></i>
                       </Link>

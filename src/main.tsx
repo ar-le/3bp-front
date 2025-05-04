@@ -44,15 +44,17 @@ createRoot(document.getElementById('root')!).render(
                      <Route path='/' element={<Chatrooms/>}></Route> 
                      <Route path='chatrooms/:id' element={<Chat/>}/>
                      <Route path='user/:id' element={<UserProfile/>}></Route>
-                     <Route element={<AuthGuard roles={['admin']} redirectPath='/'/>}>
-                        <Route path='panel' element={<AdminLayout/>} > 
-                            <Route path='transmissions' element={<TransmissionsPanel/>}></Route>
-                            <Route path='transmissions/create/:id?' element={<TransmissionForm/>} />
-                            <Route path='users' element={<UsersPanel/>}></Route>
-                            <Route path='users/create/:id?' element={<UsersForm/>} />
-                            <Route path='chatrooms' element={<ChatroomsPanel/>}></Route>
-                            <Route path='chatrooms/create/:id?' element={<ChatroomsForm/>} />
-                            <Route path='chatrooms/chatmessages/:chatroomId?' element={<ChatMessagesPanel/>} />
+                     <Route element={<AuthGuard roles={['admin', 'mod']} redirectPath='/'/>}>
+                        <Route path='panel' element={<AdminLayout/>} >
+                            <Route element={<AuthGuard roles={['admin']} redirectPath='/panel'/>}> 
+                                <Route path='transmissions' element={<TransmissionsPanel/>}></Route>
+                                <Route path='transmissions/create/:id?' element={<TransmissionForm/>} />
+                                <Route path='users' element={<UsersPanel/>}></Route>
+                                <Route path='users/create/:id?' element={<UsersForm/>} />
+                                <Route path='chatrooms' element={<ChatroomsPanel/>}></Route>
+                                <Route path='chatrooms/create/:id?' element={<ChatroomsForm/>} />
+                                <Route path='chatrooms/chatmessages/:chatroomId?' element={<ChatMessagesPanel/>} />
+                            </Route>
                             <Route path='chatrooms/chatmessages/reported' element={<ReportedChatMessagesPanel/>} />
                         </Route>
                      </Route>
