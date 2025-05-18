@@ -3,25 +3,28 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 import { BASE_URL } from "./httpClient";
 window.Pusher = Pusher;
-const url = 'https://www.api.tbp.es';
+
+
+//const url = 'https://www.api.tbp.es';
+const url = '3bpapi.lo';
+
 
 const options = {
   /*  broadcaster: rev, */
   key: "5qnqqalyfvmxii89n7p1",
 
   //wsHost: 'localhost',
-  wsHost: "www.api.tbp.es",
-  wsPort: 443,
+  wsHost: url,
+  wsPort: 8080,
 
-  wssPort: 443,
+  wssPort: 8080,
 
   forceTLS: false,
 
   enabledTransports: ["ws", "wss"],
   //authEndpoint is your apiUrl + /broadcasting/auth
-  authEndpoint: url+"/broadcasting/auth",
-  // authEndpoint : 'http://127.0.0.1/broadcasting/auth',
-  //    // As I'm using JWT tokens, I need to manually set up the headers.
+  authEndpoint: 'http://3bpapi.lo/broadcasting/auth',
+
   auth: {
     headers: {
       Authorization: `Bearer 2|IX2HaXazgr26OdrjwcFCmEoGgsdCiIg04FNutXHCabb11fee`,
@@ -40,18 +43,17 @@ export function createWebsocketConnection(token: string) {
     key: "5qnqqalyfvmxii89n7p1",
 
     //wsHost: 'localhost',
-    wsHost: "www.api.tbp.es",
-    wsPort: 443,
+    wsHost: url,
+    wsPort: 8080,
 
-    wssPort: 443,
+    wssPort: 8080,
 
     forceTLS: false,
 
     enabledTransports: ["ws", "wss"],
-    //authEndpoint is your apiUrl + /broadcasting/auth
-    authEndpoint: url+"/broadcasting/auth",
-    // authEndpoint : 'http://127.0.0.1/broadcasting/auth',
-    //    // As I'm using JWT tokens, I need to manually set up the headers.
+    
+    authEndpoint: "http://3bpapi.lo/broadcasting/auth",
+
     auth: {
       headers: {
         Authorization: `Bearer ${token}`,

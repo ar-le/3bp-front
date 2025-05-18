@@ -76,10 +76,7 @@ function ChatSection(props: ChatSectionProps) {
     .catch(error => console.log(error));
   }
 
-  function createChatroom()
-  {
 
-  }
 
   //peticion al servidor cuando se pase de página
   useEffect(() => {
@@ -130,26 +127,7 @@ function ChatSection(props: ChatSectionProps) {
               </Offcanvas.Header>
               <Offcanvas.Body className="filters-expand-container">
                 <div className="mb-0 d-flex">
-                  {/* Filtros por texto y fecha */}
-                  {/* <div>
-                    <input
-                      type="text"
-                      className="form-control mb-2"
-                      placeholder="Search..."
-                    />
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <label htmlFor="date-from">From</label>
-                    <input
-                      type="date"
-                      id="date-from"
-                      className="form-control"
-                    />
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <label htmlFor="date-to">To</label>
-                    <input type="date" id="date-to" className="form-control" />
-                  </div> */}
+                 
                   <ChatFilter onSubmitFn={filterResults} textFilterInput={textFilterInput} afterDateFilterInput={afterDateInput}></ChatFilter>
                   <Button
                   variant="primary"
