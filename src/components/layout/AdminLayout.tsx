@@ -45,6 +45,9 @@ function AdminLayout() {
                   <ListGroup.Item action className="div-bg-dark">
                     <Link to={"chatrooms"}>Chatrooms</Link>
                   </ListGroup.Item>
+                  <ListGroup.Item action className="div-bg-dark">
+                    <Link to={"teams"}>Teams</Link>
+                  </ListGroup.Item>
                 </>
               )}
 

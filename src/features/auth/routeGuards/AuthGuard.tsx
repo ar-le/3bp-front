@@ -26,7 +26,7 @@ function AuthGuard({
 
     }
 
-    if (user) createWebsocketConnection(user.token);
+    //if (user) createWebsocketConnection(user.token);
   }, [user]);
 
   //si se lee un equipo añadirlo al estado
@@ -39,6 +39,7 @@ function AuthGuard({
   //si no hay user buscar en localstorage
   if (!useAppSelector(selectUser)) {
     user = LocalStorageManager.get<ILoggedUser>("loggedUser");
+    if (user) createWebsocketConnection(user.token);
     
 
  /*    httpClient.interceptors.request.use(function (config) {
