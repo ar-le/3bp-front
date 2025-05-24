@@ -37,6 +37,12 @@ export interface IPostChatroom {
   description: string;
 }
 
+export interface IUpdateTeamRecruiting
+{
+  team : number,
+  password: string
+}
+
 export interface PaginatedResponse<T> {
   data: T[];
   links: {
@@ -85,7 +91,9 @@ export interface SendChatmessage {
 
 export interface ITeam{
   id: string,
-  name: string
+  name: string,
+  isRecruiting : boolean,
+  password: string;
 }
 
 export interface MessageResponse {

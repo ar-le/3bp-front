@@ -42,7 +42,7 @@ function ChatmessageInput() {
   };
 
   const handleEnterKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && message.trim() != '') {
       handleSendMessage();
     }
   };

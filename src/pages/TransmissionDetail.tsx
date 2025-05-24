@@ -19,7 +19,7 @@ export const TransmissionDetail = () => {
   return (
     <>
       {transmission && (
-        <div>
+        <div className=" d-flex justify-content-center flex-column align-items-center mt-4 ">
           <h1>{transmission.title}</h1>
           <p>{transmission.content}</p>
           <p>{transmission.date}</p>
