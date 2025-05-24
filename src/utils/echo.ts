@@ -5,8 +5,8 @@ import { BASE_URL } from "./httpClient";
 window.Pusher = Pusher;
 
 
-//const url = 'https://www.api.tbp.es';
-const url = '3bpapi.lo';
+const url = 'www.api.tbp.es';
+//const url = '3bpapi.lo';
 
 
 const options = {
@@ -15,19 +15,19 @@ const options = {
 
   //wsHost: 'localhost',
   wsHost: url,
-  wsPort: 8080,
+  wsPort: 443,
 
-  wssPort: 8080,
+  wssPort: 443,
 
   forceTLS: false,
 
   enabledTransports: ["ws", "wss"],
   //authEndpoint is your apiUrl + /broadcasting/auth
-  authEndpoint: 'http://3bpapi.lo/broadcasting/auth',
+  authEndpoint: 'https://'+url+'/broadcasting/auth',
 
   auth: {
     headers: {
-      Authorization: `Bearer 2|IX2HaXazgr26OdrjwcFCmEoGgsdCiIg04FNutXHCabb11fee`,
+      Authorization: `Bearer `,
       Accept: "application/json",
     },
   },
@@ -44,16 +44,15 @@ export function createWebsocketConnection(token: string) {
 
     //wsHost: 'localhost',
     wsHost: url,
-    wsPort: 8080,
+    wsPort: 443,
 
-    wssPort: 8080,
+    wssPort: 443,
 
     forceTLS: false,
 
     enabledTransports: ["ws", "wss"],
     
-    authEndpoint: "http://3bpapi.lo/broadcasting/auth",
-
+    authEndpoint: 'https://'+url+'/broadcasting/auth',
     auth: {
       headers: {
         Authorization: `Bearer ${token}`,
