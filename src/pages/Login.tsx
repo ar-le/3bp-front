@@ -24,6 +24,7 @@ function Login() {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const [invalidCredentials, setInvalidCredentials] = useState(false);
+  const [userCreated, setUserCreated] = useState(false);
 
   async function onSubmitHandler(data: ILogin) {
     setInvalidCredentials(false);
@@ -36,7 +37,7 @@ function Login() {
         "loggedUser",
         user
       );
-      LocalStorageManager.put<string>('cosa', 'cosa');
+
       dispatch(setTeam(user.team.name));
       LocalStorageManager.put<string>('team', user.team.name)
       console.log(user);
@@ -51,8 +52,11 @@ function Login() {
         return config;
       },null, {synchronous:true});
 
+      console.log('token : '+user.token);
+      
       createWebsocketConnection(user.token);
       navigator("/");
+     // setUserCreated(true)
     } else {
       setInvalidCredentials(true);
     }
@@ -63,6 +67,8 @@ function Login() {
       fluid={true}
       className="d-flex flex-column justify-content-center align-items-center full-height"
     >
+
+
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={Yup.object({

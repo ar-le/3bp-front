@@ -14,7 +14,7 @@ function TeamsPanel() {
       setTeams(response.data.data);
    
     });
-  });
+  }, []);
 
  
 
