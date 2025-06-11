@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import { ChatMessage, PaginatedResponse } from "../../types/GeneralTypes";
 import { Link, useParams } from "react-router";
 import { ChatroomsApi } from "../../features/chatrooms/chatroomsApi";
+import { ILoggedUser } from "../../types/UserTypes";
+import { useAppSelector } from "../../app/hooks";
+import { selectUser } from "../../features/auth/authSlice";
 
 function ReportedChatMessagesPanel() {
-
+  const user: ILoggedUser | null = useAppSelector(selectUser);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
   const [prevCursor, setPrevCursor] = useState<string | null>(null);
@@ -113,13 +116,15 @@ function ReportedChatMessagesPanel() {
                 >
                   Hide
                 </Button>
-                <Button
+                {user?.role == 'admin' &&
+                  
+                  <Button
                   variant="danger"
                   size="sm"
                  onClick={() => handleDelete(message.message.id)}
                 >
                   Delete
-                </Button>
+                </Button>}
               </td>
             </tr>
           ))}

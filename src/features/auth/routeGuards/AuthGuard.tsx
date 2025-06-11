@@ -41,14 +41,6 @@ function AuthGuard({
     user = LocalStorageManager.get<ILoggedUser>("loggedUser");
     if (user) createWebsocketConnection(user.token);
     
-
- /*    httpClient.interceptors.request.use(function (config) {
-      if (user) config.headers["Authorization"] = `Bearer ${user.token}`;
-
-      return config;
-    }); */
-    //si hay información guardarla en el estado
-    //if(user) dispatch(login(user));
   }
 
   httpClient.interceptors.request.use(function (config) {

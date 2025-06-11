@@ -5,7 +5,7 @@ import { ChatMessage, IChatroom } from "../types/GeneralTypes";
 import { Col, Container, Row } from "react-bootstrap";
 import Chatmessage from "../features/chatrooms/Chatmessage";
 import "./styles/chat.scss";
-import { useMeasure } from "@uidotdev/usehooks";
+
 import { useAppSelector } from "../app/hooks";
 import { selectUser } from "../features/auth/authSlice";
 import ChatmessageInput from "../features/chatrooms/ChatmessageInput";
@@ -46,7 +46,7 @@ function Chat() {
         console.log(error);
       });
 
-    /* scrollToBottom(); */
+    
   }, []);
 
   //Listener de nuevos mensajes
@@ -58,8 +58,6 @@ function Chat() {
         //console.log(event);
         setMessages(prev => [...prev, event]);
 
-       /*  console.log(messagesContainerRef.current?.scrollHeight);
-        console.log(messagesContainerRef.current?.scrollTop); */
 
         if (scrollRef.current) {
           
@@ -82,60 +80,34 @@ function Chat() {
     };
   }, []);
 
-  /*  useEffect(() => {
-    scrollToBottom();
-  },[messagesContainerRef.current, bottomDivRef.current]); */
 
-  /*   const scrollToBottom =() => {
-    messagesContainerRef.current?.scrollTo({
-      top: 10000,
-      behavior: "smooth",
-    });
-    setTimeout(() => {
-
-    
-      messagesContainerRef.current?.scrollTo({
-        top: 10000,
-        behavior: "smooth",
-      });
-    }, 2);
-  }; */
 
   const scrollToBottomC = useCallback(() => {
     setTimeout(() => {
-      //console.log("scroll in view");
+
       bottomDivRef.current?.scrollIntoView();
-      /* messagesContainerRef.current?.scrollTo({
-        top: 10000,
-        behavior: "smooth",
-      }); */
+
     }, 1);
   }, []);
 
-  /*  const scrollToLast = useCallback(() => {
-    //console.log(`scroll - old: ${heightRef.current}, new: ${newHeight}`);
-    if (newHeight > heightRef.current) {
-      messagesContainerRef.current.scrollTop = newHeight - heightRef.current;
-      heightRef.current = newHeight;
-    }
-  }, [newHeight]); */
+
 
   useEffect(() => {
     //scroll hasta abajo sólo al entrar, cuando no se han cargado más mensajes
     if (messages.length <= 15) {
       scrollToBottomC();
-      // heightRef.current = newHeight;
+    
     }
 
-    // scrollToLast();
-  }, [scrollToBottomC, /* scrollToLast, */ messages]);
+
+  }, [scrollToBottomC, messages]);
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
     const scrollTop = (e.target as HTMLElement).scrollTop;
     const { scrollHeight, clientHeight } = e.target;
-   // console.log( /* scrollHeight, clientHeight,  */scrollTop);
+   
 
-    //cuando se llega arriba se hace una petición
+    //cuando se llega arriba en el contenedor de mensajes se hace una petición para cargar los mensajes anteriores
     if (scrollTop == 0 && nextCursor != null) {
       if (!params.id) return;
       ChatroomsApi.getMessages(params.id, nextCursor)

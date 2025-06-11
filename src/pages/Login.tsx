@@ -28,6 +28,7 @@ function Login() {
 
   async function onSubmitHandler(data: ILogin) {
     setInvalidCredentials(false);
+    //INtentar login
     const res = await dispatch(loginAsync(data));
     //console.log(res);
 
@@ -46,7 +47,6 @@ function Login() {
       
       //crear un interceptor que añade el token a las peticiones
        httpClient.interceptors.request.use(function (config) {
-        //const user = useAppSelector(selectUser);
         config.headers['Authorization'] =  `Bearer ${user.token}`;
         
         return config;

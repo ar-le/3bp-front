@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
-import { IUser } from "../../types/UserTypes";
+import { ILoggedUser, IUser } from "../../types/UserTypes";
 import { UsersApi } from "../../features/users/userApi";
 import { useAppSelector } from "../../app/hooks";
 import { selectUser } from "../../features/auth/authSlice";
 
 function UsersPanel() {
-    //const currentUser = useAppSelector(selectUser);
+    const currentUser: ILoggedUser | null = useAppSelector(selectUser);
   const [users, setUsers] = useState<IUser[]>([]);
-//  const [setFilteredUsers, filteredUsers] = useState<IUser[]>([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(0);
 
@@ -67,7 +66,8 @@ function UsersPanel() {
                   <Link to={`create/${user.id}`}>
                     <Button>Edit</Button>
                   </Link>
-                 {user.role != 'admin' && <Button variant="danger" onClick={() => handleDelete(user.id)}>Delete</Button>}
+                 {currentUser?.username != user.username &&
+                  <Button variant="danger" onClick={() => handleDelete(user.id)}>Delete</Button>}
                 </td>
               </tr>
             ))}
