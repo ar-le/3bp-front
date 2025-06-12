@@ -9,6 +9,9 @@ import { ChatroomsApi } from "../../features/chatrooms/chatroomsApi";
 import { ILoggedUser } from "../../types/UserTypes";
 import { useAppSelector } from "../../app/hooks";
 import { selectUser } from "../../features/auth/authSlice";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 
 function ReportedChatMessagesPanel() {
   const user: ILoggedUser | null = useAppSelector(selectUser);
@@ -64,15 +67,31 @@ function ReportedChatMessagesPanel() {
   };
 
   const handleDelete = (messageId: string) => {
-    ChatroomsApi.deleteMessage(messageId)
-      .then(() => {
-        setMessages(messages.filter(m => m.message.id !== messageId));
-        toast.success("Message deleted");
-      })
-      .catch(error => {
-        toast.error("Failed to delete message");
-        console.error(error);
-      });
+    confirmAlert({
+              title: 'Delete Message',
+              message: 'This action cannot be undone',
+              buttons: [
+                {
+                  label: 'Yes',
+                  onClick: () => {
+                    ChatroomsApi.deleteMessage(messageId)
+                      .then(() => {
+                        setMessages(messages.filter(m => m.message.id !== messageId));
+                        toast.success("Message deleted");
+                      })
+                      .catch(error => {
+                        toast.error("Failed to delete message");
+                        console.error(error);
+                      });
+
+                    }
+                  },
+                  {
+                    label: 'No',
+                      onClick: () => {}
+                  }
+                ]
+            });
   };
 
   return (

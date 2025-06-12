@@ -7,6 +7,8 @@ import { ILoggedUser, IUser } from "../../types/UserTypes";
 import { UsersApi } from "../../features/users/userApi";
 import { useAppSelector } from "../../app/hooks";
 import { selectUser } from "../../features/auth/authSlice";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function UsersPanel() {
     const currentUser: ILoggedUser | null = useAppSelector(selectUser);
@@ -28,14 +30,33 @@ function UsersPanel() {
 
 
   const handleDelete = (id: string) => {
-    UsersApi.delete(id).then(() => {
-      toast.success("User deleted");
-      users.splice(
-        users.findIndex(t => t.id == id),
-        1
-      );
-      setUsers([...users]);
+
+    confirmAlert({
+      title: 'Delete User',
+      message: 'This action cannot be undone',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            UsersApi.delete(id).then(() => {
+              toast.success("User deleted");
+              users.splice(
+                users.findIndex(t => t.id == id),
+                1
+              );
+              setUsers([...users]);
+            });
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {}
+        }
+      ]
     });
+
+
+    
   };
 
 

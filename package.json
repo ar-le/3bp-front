@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "buildignore" : "vite build",
+    "buildignore": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -26,6 +26,7 @@
     "pusher-js": "^8.4.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router": "^7.3.0",

@@ -4,6 +4,8 @@ import { Link } from "react-router";
 import { toast } from "react-toastify";
 import { ChatroomsApi } from "../../features/chatrooms/chatroomsApi";
 import { IChatroom } from "../../types/GeneralTypes";
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function ChatroomsPanel() {
   const [chatrooms, setChatrooms] = useState<IChatroom[]>([]);
@@ -18,10 +20,25 @@ function ChatroomsPanel() {
   }, [page]);
 
   const handleDelete = (id: string) => {
-    ChatroomsApi.deleteChatroom(id.toString()).then(() => {
-      toast.success("Chatroom deleted");
-      setChatrooms(chatrooms.filter(chatroom => chatroom.id !== id));
-    });
+    confirmAlert({
+          title: 'Delete Chatroom',
+          message: 'This action cannot be undone',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => {
+                ChatroomsApi.deleteChatroom(id.toString()).then(() => {
+                toast.success("Chatroom deleted");
+                setChatrooms(chatrooms.filter(chatroom => chatroom.id !== id));
+              });
+              }
+            },
+            {
+              label: 'No',
+                onClick: () => {}
+            }
+          ]
+      });
   };
 
   return (

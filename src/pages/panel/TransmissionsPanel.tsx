@@ -4,6 +4,8 @@ import { TransmissionsApi } from "../../features/transmissions/transmissionsApi"
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 function TransmissionsPanel() {
   const [transmissions, setTransmissions] = useState<ITransmission[]>([]);
@@ -44,14 +46,29 @@ function TransmissionsPanel() {
 
 
   const handleDelete = (id: string) => {
-    TransmissionsApi.delete(id).then(() => {
-      toast.success("Transmission deleted");
-      transmissions.splice(
-        transmissions.findIndex(t => t.id == id),
-        1
-      );
-      setTransmissions([...transmissions]);
+    confirmAlert({
+          title: 'Delete Transmission',
+          message: 'This action cannot be undone',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => {
+            TransmissionsApi.delete(id).then(() => {
+              toast.success("Transmission deleted");
+              transmissions.splice(
+                transmissions.findIndex(t => t.id == id),
+                1
+              );
+              setTransmissions([...transmissions]);
     });
+  }
+},
+  {
+    label: 'No',
+    onClick: () => {}
+  }
+]
+});
   };
 
   return (
